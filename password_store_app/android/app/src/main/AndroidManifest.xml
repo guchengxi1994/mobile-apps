@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.password_store_app">
+    package="com.xiaoshuyui.password_store_app">
    <application
         android:label="password_store_app"
         android:icon="@mipmap/ic_launcher">

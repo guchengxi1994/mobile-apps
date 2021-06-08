@@ -1,4 +1,4 @@
-package com.example.password_store_app;
+package com.xiaoshuyui.password_store_app;
 
 import io.flutter.embedding.android.FlutterActivity;
 
