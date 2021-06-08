@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_store_app/utils/sharepreferenceUtil.dart';
+import 'package:password_store_app/utils/sharedpreference_util.dart';
 import 'package:gesture_unlock/lock_pattern.dart';
 
 class GestureVerifyPage extends StatelessWidget {
