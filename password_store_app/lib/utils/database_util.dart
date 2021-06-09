@@ -22,6 +22,6 @@ testSqlite() async {
   print('inserted:${d.toJson()}');
 
   /// 查询数据
-  UserData dd = await userProvider.getTodo(1);
+  UserData dd = (await userProvider.getTodo(1))!;
   print("todo:${dd.toJson()}");
 }

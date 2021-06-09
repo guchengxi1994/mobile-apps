@@ -81,3 +81,11 @@ class UserPasscodeUtil {
     return String.fromCharCodes(base64Decode(data));
   }
 }
+
+bool strValid(String? s) {
+  if (null != s && s != "") {
+    return true;
+  } else {
+    return false;
+  }
+}

@@ -25,8 +25,8 @@ class GestureVerifyState extends State<GestureVerify> {
   var _status = GestureCreateStatus.Verify;
   var _msg = "请绘制解锁手势";
   var _failedCount = 0;
-  LockPattern _lockPattern;
-  String _localPassword;
+  LockPattern? _lockPattern;
+  String? _localPassword;
 
   @override
   void initState() {
@@ -81,16 +81,16 @@ class GestureVerifyState extends State<GestureVerify> {
           print(password);
           if (_localPassword == password) {
             _msg = "解锁成功";
-            _lockPattern.updateStatus(LockPatternStatus.Success);
+            _lockPattern?.updateStatus(LockPatternStatus.Success);
           } else {
             _failedCount++;
             if (_failedCount >= 5) {
               _status = GestureCreateStatus.Verify_Failed_Count_Overflow;
-              _lockPattern.updateStatus(LockPatternStatus.Disable);
+              _lockPattern?.updateStatus(LockPatternStatus.Disable);
               _msg = "多次验证失败，请5分钟后再次尝试";
             } else {
               _status = GestureCreateStatus.Verify_Failed;
-              _lockPattern.updateStatus(LockPatternStatus.Failed);
+              _lockPattern?.updateStatus(LockPatternStatus.Failed);
               _msg = "验证失败，请重新尝试";
             }
           }

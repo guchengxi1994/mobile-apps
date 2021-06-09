@@ -27,8 +27,8 @@ class GestureCreateState extends State<GestureCreate> {
   var _status = GestureCreateStatus.Create;
   var _msg = "请绘制解锁手势";
   var _gesturePassword;
-  LockPatternIndicator _indicator;
-  LockPattern _lockPattern;
+  LockPatternIndicator? _indicator;
+  LockPattern? _lockPattern;
   bool _isLoading = false;
 
   @override
@@ -90,13 +90,13 @@ class GestureCreateState extends State<GestureCreate> {
           if (selected.length < 4) {
             _msg = "连接数不能小于4个，请重新尝试";
             _status = GestureCreateStatus.Create_Failed;
-            _lockPattern.updateStatus(LockPatternStatus.Failed);
+            _lockPattern?.updateStatus(LockPatternStatus.Failed);
           } else {
             _msg = "请再次验证手势";
             _gesturePassword = LockPattern.selectedToString(selected);
             _status = GestureCreateStatus.Verify;
-            _lockPattern.updateStatus(LockPatternStatus.Success);
-            _indicator.setSelectPoint(selected);
+            _lockPattern?.updateStatus(LockPatternStatus.Success);
+            _indicator?.setSelectPoint(selected);
           }
           break;
         case GestureCreateStatus.Verify:
@@ -111,11 +111,11 @@ class GestureCreateState extends State<GestureCreate> {
             });
             this._isLoading = false;
 
-            _lockPattern.updateStatus(LockPatternStatus.Success);
+            _lockPattern?.updateStatus(LockPatternStatus.Success);
           } else {
             _msg = "验证失败，请重新尝试";
             _status = GestureCreateStatus.Verify_Failed;
-            _lockPattern.updateStatus(LockPatternStatus.Failed);
+            _lockPattern?.updateStatus(LockPatternStatus.Failed);
           }
           break;
         case GestureCreateStatus.Verify_Failed_Count_Overflow:
