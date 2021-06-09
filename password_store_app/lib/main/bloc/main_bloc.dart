@@ -55,8 +55,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<MainState> _changedToState(
       MainState state, DataChanged dataChanged) async {
     // print(state.userDatas[dataChanged.index].toJson());
-    state.userDatas[dataChanged.index] = dataChanged.userData;
-    return state.copyWith(MainStatus.changed, state.userDatas);
+    
+    if(state.userDatas[dataChanged.index]!=dataChanged.userData){
+      state.userDatas[dataChanged.index] = dataChanged.userData;
+      return state.copyWith(MainStatus.changed, state.userDatas);
+    }else{
+      return state.copyWith(MainStatus.success, state.userDatas);
+    }
+    
   }
 
   Future<List<UserData>> _fetchUserData() async {
