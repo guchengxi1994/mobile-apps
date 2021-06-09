@@ -89,3 +89,24 @@ bool strValid(String? s) {
     return false;
   }
 }
+
+bool listEquals(List l1, List l2) {
+  if (l1.length != l2.length) {
+    return false;
+  }
+
+  bool flag = true;
+  final int length = l1.length;
+  try {
+    for (var i = 0; i < length; i++) {
+      if (l1[i] != l2[i]) {
+        flag = false;
+        break;
+      }
+    }
+  } catch (e) {
+    flag = false;
+  }
+
+  return flag;
+}

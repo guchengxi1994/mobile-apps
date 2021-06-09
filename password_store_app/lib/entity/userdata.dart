@@ -108,7 +108,7 @@ create table IF NOT EXISTS $tableName  (
   Future close() async => db.close();
 }
 
-class UserData extends Equatable {
+class UserData {
   int? rid; // row id
   String? userId;
   String? userPasscode;
@@ -173,23 +173,42 @@ class UserData extends Equatable {
     return data;
   }
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => [
-        rid,
-        userId,
-        userPasscode,
-        passcodeType,
-        appname,
-        isRandom,
-        isFuzzy,
-        salt,
-        scheme
-      ];
-
   // @override
-  // // TODO: implement hashCode
-  // int get hashCode => super.hashCode;
+  // // TODO: implement props
+  // List<Object?> get props => [
+  //       rid,
+  //       userId,
+  //       userPasscode,
+  //       passcodeType,
+  //       appname,
+  //       isRandom,
+  //       isFuzzy,
+  //       salt,
+  //       scheme
+  //     ];
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (this.runtimeType != other.runtimeType) {
+      return false;
+    }
+    // ignore: test_types_in_equals
+    other = other as UserData;
+    return identical(this, other) ||
+        (this.appname == other.appname &&
+            this.isFuzzy == other.isFuzzy &&
+            this.isRandom == other.isRandom &&
+            this.passcodeType == other.passcodeType &&
+            this.rid == other.rid &&
+            this.salt == other.salt &&
+            this.scheme == other.scheme &&
+            this.userId == other.userId &&
+            this.userPasscode == other.userPasscode);
+  }
 
   static void test_compare() {
     UserData userData1 = UserData(userId: "1111", appname: "111111");

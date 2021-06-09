@@ -1,9 +1,19 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: xiaoshuyui
+ * @email: guchengxi1994@qq.com
+ * @Date: 2021-06-09 19:04:04
+ * @LastEditors: xiaoshuyui
+ * @LastEditTime: 2021-06-09 20:06:37
+ */
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:password_store_app/entity/userdata.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:equatable/src/equatable_utils.dart' as qu_utils;
 
 part 'main_event.dart';
 part 'main_state.dart';
@@ -44,12 +54,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   Future<MainState> _changedToState(
       MainState state, DataChanged dataChanged) async {
-    // print(state.userDatas[dataChanged.index].userPasscode);
-    state.userDatas.removeAt(dataChanged.index);
-    state.userDatas.insert(dataChanged.index, dataChanged.userData);
-    // print(state.userDatas[dataChanged.index].userPasscode);
-    // print(state.userDatas[dataChanged.index].userPasscode);
-    return state.copyWith(MainStatus.success, state.userDatas);
+    // print(state.userDatas[dataChanged.index].toJson());
+    state.userDatas[dataChanged.index] = dataChanged.userData;
+    return state.copyWith(MainStatus.changed, state.userDatas);
   }
 
   Future<List<UserData>> _fetchUserData() async {
