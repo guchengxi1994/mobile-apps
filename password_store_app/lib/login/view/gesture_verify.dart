@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_store_app/utils/routers.dart';
 import 'package:password_store_app/utils/sharedpreference_util.dart';
 import 'package:gesture_unlock/lock_pattern.dart';
 
@@ -82,6 +83,8 @@ class GestureVerifyState extends State<GestureVerify> {
           if (_localPassword == password) {
             _msg = "解锁成功";
             _lockPattern?.updateStatus(LockPatternStatus.Success);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routers.main, (route) => route == null);
           } else {
             _failedCount++;
             if (_failedCount >= 5) {

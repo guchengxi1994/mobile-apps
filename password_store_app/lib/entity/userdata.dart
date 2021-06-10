@@ -173,20 +173,6 @@ class UserData {
     return data;
   }
 
-  // @override
-  // // TODO: implement props
-  // List<Object?> get props => [
-  //       rid,
-  //       userId,
-  //       userPasscode,
-  //       passcodeType,
-  //       appname,
-  //       isRandom,
-  //       isFuzzy,
-  //       salt,
-  //       scheme
-  //     ];
-
   @override
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
@@ -208,6 +194,17 @@ class UserData {
             this.scheme == other.scheme &&
             this.userId == other.userId &&
             this.userPasscode == other.userPasscode);
+  }
+
+  void clear() {
+    this.appname = "";
+    this.isFuzzy = true;
+    this.isRandom = false;
+    this.passcodeType = "";
+    this.salt = "";
+    this.scheme = "";
+    this.userId = "";
+    this.userPasscode = "";
   }
 
   static void test_compare() {

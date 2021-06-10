@@ -13,4 +13,9 @@ class DataChanged extends MainEvent {
   const DataChanged({required this.index, required this.userData});
 }
 
+class DataAdded extends MainEvent {
+  final UserData userData;
+  const DataAdded({required this.userData});
+}
+
 class DataFetched extends MainEvent {}

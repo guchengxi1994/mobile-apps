@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^7.0.0 #状态管理框架
   equatable: ^2.0.0 #增强组件相等性判断
   rxdart: ^0.26.0
+  url_launcher: ^6.0.4
 
 
 dev_dependencies:
@@ -58,6 +59,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/icon.png
+    - assets/images/background.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

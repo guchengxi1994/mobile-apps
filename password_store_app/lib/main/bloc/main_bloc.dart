@@ -11,6 +11,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:password_store_app/entity/userdata.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/src/equatable_utils.dart' as qu_utils;
@@ -31,6 +32,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
     if (event is DataChanged) {
       yield await _changedToState(state, event);
+    }
+
+    if (event is DataAdded) {
+      yield await _addToState(state, event);
     }
   }
 
@@ -55,14 +60,18 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<MainState> _changedToState(
       MainState state, DataChanged dataChanged) async {
     // print(state.userDatas[dataChanged.index].toJson());
-    
-    if(state.userDatas[dataChanged.index]!=dataChanged.userData){
+
+    if (state.userDatas[dataChanged.index] != dataChanged.userData) {
       state.userDatas[dataChanged.index] = dataChanged.userData;
       return state.copyWith(MainStatus.changed, state.userDatas);
-    }else{
+    } else {
       return state.copyWith(MainStatus.success, state.userDatas);
     }
-    
+  }
+
+  Future<MainState> _addToState(MainState state, DataAdded dataAdded) async {
+    state.userDatas.add(dataAdded.userData);
+    return state.copyWith(MainStatus.changed, state.userDatas);
   }
 
   Future<List<UserData>> _fetchUserData() async {

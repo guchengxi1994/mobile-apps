@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xiaoshuyui.password_store_app">
    <application
-        android:label="密码保护者"
+        android:label="密码乡"
         android:icon="@mipmap/icon">
         <activity
             android:name=".MainActivity"

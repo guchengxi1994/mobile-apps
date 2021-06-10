@@ -14,15 +14,20 @@ enum MainStatus { initial, changed, success, failure }
 class MainState extends Equatable {
   final MainStatus status;
   final List<UserData> userDatas;
-  const MainState(
-      {this.status = MainStatus.initial, this.userDatas = const []});
+
+  const MainState({
+    this.status = MainStatus.initial,
+    this.userDatas = const [],
+  });
 
   @override
   List<Object> get props => [status, userDatas];
 
   MainState copyWith(MainStatus? status, List<UserData>? userdatas) {
     return MainState(
-        status: status ?? this.status, userDatas: userdatas ?? this.userDatas);
+      status: status ?? this.status,
+      userDatas: userdatas ?? this.userDatas,
+    );
   }
 
   @override

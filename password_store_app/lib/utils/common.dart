@@ -31,10 +31,6 @@ class UserPasscodeUtil {
         } else {
           List l = pscSplit(b64Code);
           code = l[0] + salt + l[1];
-          // print("======================");
-          // print(l[0]);
-          // print(l[1]);
-          // print("======================");
         }
         break;
       }
@@ -90,6 +86,7 @@ bool strValid(String? s) {
   }
 }
 
+/// 弃用
 bool listEquals(List l1, List l2) {
   if (l1.length != l2.length) {
     return false;

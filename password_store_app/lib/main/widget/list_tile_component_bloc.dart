@@ -1,14 +1,23 @@
-/// using bloc rewrite ./list_tile.dart
+/// using bloc to rewrite ./list_tile.dart
 
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:password_store_app/entity/userdata.dart';
 import 'package:password_store_app/main/bloc/main_bloc.dart';
 import 'package:password_store_app/main/widget/list_tile_dialog.dart';
+import 'package:password_store_app/utils/color_utils.dart';
 import 'package:password_store_app/utils/common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
 
 final double _padding = 32;
+final double _cardHeight = 200;
+
+final _fontSize = 20;
+
+final Color _frontColor = ColorUtil.getDynamicWarmColor();
+final Color _backColor = ColorUtil.getDynamicColdColor();
 
 class UserDataWidget extends StatefulWidget {
   // final UserData userData;
@@ -26,6 +35,7 @@ class UserDataWidget extends StatefulWidget {
 class _UserDataWidgetState extends State<UserDataWidget> {
   late MainBloc _mainBloc;
   late UserData _currentUserData;
+
   @override
   void initState() {
     super.initState();
@@ -43,56 +53,59 @@ class _UserDataWidgetState extends State<UserDataWidget> {
         direction: FlipDirection.HORIZONTAL,
         back: Container(
           padding: EdgeInsets.all(_padding),
+          constraints: BoxConstraints(minHeight: _cardHeight),
           decoration: BoxDecoration(
-            color: Color(0xFF006666),
+            // color: Color(0xFF006666),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  _backColor,
+                  ColorUtil.colorEnd,
+                ]),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _renderContent(
-                  "口令类型", _mainBloc.state.userDatas[widget.index].passcodeType,
-                  fixed: true),
-              _renderContent(
+              // _renderContent(
+              //     "口令类型", _mainBloc.state.userDatas[widget.index].passcodeType,
+              //     fixed: true),
+              _renderContentWithBloc(
                   "scheme", _mainBloc.state.userDatas[widget.index].scheme,
-                  fixed: false),
+                  colorStyle: 0),
             ],
           ),
         ),
         front: Container(
           padding: EdgeInsets.all(_padding),
+          constraints: BoxConstraints(minHeight: _cardHeight),
           decoration: BoxDecoration(
-            color: Color(0xFF006666),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  _frontColor,
+                  ColorUtil.colorEnd,
+                ]),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _renderContent("应用名称",
-                  _mainBloc.state.userDatas[widget.index].appname.toString()),
-              _renderContent("用户名",
-                  _mainBloc.state.userDatas[widget.index].userId.toString()),
-              _renderContent(
-                  "用户口令",
-                  _mainBloc.state.userDatas[widget.index].userPasscode
-                      .toString(),
-                  customTrailing: strValid(
-                          _mainBloc.state.userDatas[widget.index].userPasscode)
-                      ? TextButton(
-                          onPressed: () {
-                            print("点击了复制");
-                          },
-                          child: Text("复制到剪切板"))
-                      : TextButton(
-                          onPressed: () {
-                            print("点击了生成");
-                            _currentUserData.userPasscode =
-                                "passcode" + widget.index.toString();
-                            _mainBloc.add(DataChanged(
-                                index: widget.index,
-                                userData: _currentUserData));
-                          },
-                          child: Text("修改code"))),
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text("编号： " + widget.index.toString()),
+              ),
+              _renderContentWithBloc(
+                  "应用名称", _mainBloc.state.userDatas[widget.index].appname,
+                  colorStyle: 1),
+              _renderContentWithBloc(
+                  "用户昵称", _mainBloc.state.userDatas[widget.index].userId,
+                  colorStyle: 1),
+              _renderContentWithBloc(
+                  "用户口令", _mainBloc.state.userDatas[widget.index].userPasscode,
+                  colorStyle: 1)
             ],
           ),
         ),
@@ -122,5 +135,129 @@ class _UserDataWidgetState extends State<UserDataWidget> {
             : customTrailing,
       ],
     );
+  }
+
+  Widget _renderContentWithBloc(String title, dynamic content,
+      {int colorStyle = 0}) {
+    Widget w;
+    switch (title) {
+      case "用户口令":
+        w = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RichText(
+                text: TextSpan(
+              children: [
+                TextSpan(
+                    text: title + ": ",
+                    style: TextStyle(
+                        color: Colors.black, fontSize: _fontSize * 1.0)),
+                TextSpan(
+                    text: content.toString(),
+                    style: TextStyle(
+                        fontSize: _fontSize * 1.0,
+                        fontWeight: FontWeight.bold,
+                        color: colorStyle == 1 ? _backColor : _frontColor)),
+              ],
+            )),
+            Spacer(),
+            strValid(_mainBloc.state.userDatas[widget.index].userPasscode)
+                ? TextButton(
+                    onPressed: () {
+                      print("点击了复制");
+                      Clipboard.setData(ClipboardData(
+                          text: _mainBloc
+                              .state.userDatas[widget.index].userPasscode
+                              .toString()));
+                      Fluttertoast.showToast(
+                          msg: "复制成功",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Colors.blue,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    },
+                    child: Text("复制到剪切板"))
+                : TextButton(
+                    onPressed: () {
+                      print("点击了生成");
+                      _currentUserData.userPasscode =
+                          "passcode" + widget.index.toString();
+                      _mainBloc.add(DataChanged(
+                          index: widget.index, userData: _currentUserData));
+                    },
+                    child: Text("修改code")),
+          ],
+        );
+        break;
+      case "scheme":
+        w = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RichText(
+                text: TextSpan(
+              children: [
+                TextSpan(
+                    text: title + ": ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: _fontSize * 1.0,
+                    )),
+                TextSpan(
+                    text: content.toString(),
+                    style: TextStyle(
+                        fontSize: _fontSize * 1.0,
+                        decoration: TextDecoration.underline,
+                        decorationStyle: TextDecorationStyle.dashed,
+                        fontWeight: FontWeight.bold,
+                        color: colorStyle == 1 ? _backColor : _frontColor)),
+              ],
+            )),
+            Spacer(),
+            TextButton(
+              child: Text("跳转"),
+              onPressed: () async {
+                print("点击了跳转");
+                // var result = showCustomDialog(context);
+              },
+            ),
+          ],
+        );
+        break;
+      default:
+        w = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RichText(
+                text: TextSpan(
+              children: [
+                TextSpan(
+                    text: title + ": ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: _fontSize * 1.0,
+                    )),
+                TextSpan(
+                    text: content.toString(),
+                    style: TextStyle(
+                        fontSize: _fontSize * 1.0,
+                        fontWeight: FontWeight.bold,
+                        color: colorStyle == 1 ? _backColor : _frontColor)),
+              ],
+            )),
+            Spacer(),
+            TextButton(
+              child: Text("修改"),
+              onPressed: () async {
+                // print("点击了修改");
+                var result = showCustomDialog(context);
+              },
+            ),
+          ],
+        );
+        break;
+    }
+    return w;
   }
 }

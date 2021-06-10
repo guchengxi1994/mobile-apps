@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_store_app/utils/routers.dart';
 import 'package:password_store_app/utils/sharedpreference_util.dart';
 
 import 'package:gesture_unlock/lock_pattern.dart';
@@ -112,6 +113,9 @@ class GestureCreateState extends State<GestureCreate> {
             this._isLoading = false;
 
             _lockPattern?.updateStatus(LockPatternStatus.Success);
+
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routers.verify, (route) => route == null);
           } else {
             _msg = "验证失败，请重新尝试";
             _status = GestureCreateStatus.Verify_Failed;
