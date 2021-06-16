@@ -6,8 +6,12 @@ import cv2
 import numpy as np
 from flask import Flask, request
 from flask_cors import CORS
+import traceback
+import base64
 
-__cache_folder__ = 'D:\\github_repo\\mobile-apps\\image_similarity_demo\\server\\cache\\'
+__cache_folder__ = 'D:\\mobile-apps\\image_similarity_demo\\server\\cache\\'
+
+# __cache_folder__ = 'D:\\github_repo\\mobile-apps\\image_similarity_demo\\server\\cache\\'
 
 #导入三个算子
 toTensor_operator = torchvision.transforms.ToTensor(
@@ -30,7 +34,7 @@ def _load_model():
 
 
 def _extract_feature(net, img):
-    assert type(img) is np.ndarray, "input error"
+    assert type(img) is np.ndarray, "input error,{}".format(type(img))
     img = cv2.resize(img, (224, 224))
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -60,8 +64,10 @@ def _extract_feature(net, img):
 def cosin_features(feature1, feature2) -> float:
     # print(feature1.squeeze(0).squeeze(-1).squeeze(-1).shape)
     # print(feature2.squeeze(0).squeeze(-1).squeeze(-1).shape)
-    feature1 = np.array(feature1.squeeze(0).squeeze(-1).squeeze(-1), dtype=np.float32)
-    feature2 = np.array(feature2.squeeze(0).squeeze(-1).squeeze(-1), dtype=np.float32)
+    feature1 = np.array(feature1.squeeze(0).squeeze(-1).squeeze(-1),
+                        dtype=np.float32)
+    feature2 = np.array(feature2.squeeze(0).squeeze(-1).squeeze(-1),
+                        dtype=np.float32)
 
     norm1 = np.linalg.norm(feature1)
     norm2 = np.linalg.norm(feature2)
@@ -70,7 +76,9 @@ def cosin_features(feature1, feature2) -> float:
     similarity = np.dot(feature1, feature2.T) / (norm1 * norm2)
     return similarity
 
+
 net = _load_model()
+
 
 def _test():
     global net
@@ -100,6 +108,7 @@ def test():
     """
     return "Hello Task Network"
 
+
 @app.route('/compare', methods=['POST'])
 def compare():
     """测试用接口
@@ -107,28 +116,33 @@ def compare():
     res = dict()
     # print(request.data)
     a = request.get_data()
+    # print(a)
     try:
         # da = str(request.data).replace("'","")[1:]
+        # if type(a) is bytes:
+        #     a = a.decode("utf-8")
+        # print(type(a))
+        # print(a)
         dict1 = json.loads(a)
         # print(dict1)
-        data1 = dict1.get('image1', None)   
+        data1 = dict1.get('image1', None)
         data2 = dict1.get('image2', None)
         # print(data2)
         if data1 is not None and data2 is not None:
-            filename1 = str(time.time()) + ".jpg"
-            filename2 = str(time.time())+"_1" + ".jpg"
+            filename1 = str(time.time()).replace(".", "") + ".jpg"
+            filename2 = str(time.time()).replace(".", "") + "_1" + ".jpg"
 
             f = open(__cache_folder__ + filename1, "wb")
-            f.write(data1.encode(encoding='utf-8'))
+            f.write(base64.b64decode(data1))
             f.close()
 
             f = open(__cache_folder__ + filename2, "wb")
-            f.write(data2.encode(encoding='utf-8'))
+            f.write(base64.b64decode(data2))
             f.close()
 
             global net
-            img1 = cv2.imread(filename1)
-            img2 = cv2.imread(filename2)
+            img1 = cv2.imread(__cache_folder__ + filename1)
+            img2 = cv2.imread(__cache_folder__ + filename2)
             f1 = _extract_feature(net, img1)
             f2 = _extract_feature(net, img2)
             res['code'] = 200
@@ -137,12 +151,13 @@ def compare():
         else:
             print("图片有问题")
             res['code'] = 500
-            res['similarity'] = -1  
-    except Exception as e:
-        print(e)
+            res['similarity'] = -1
+    except:
+        traceback.print_exc()
         res['code'] = 500
         res['similarity'] = -1
     return json.dumps(res)
+
 
 if __name__ == "__main__":
     # _test()
