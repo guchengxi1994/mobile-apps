@@ -19,3 +19,9 @@ class DataAdded extends MainEvent {
 }
 
 class DataFetched extends MainEvent {}
+
+class DataDelete extends MainEvent {
+  final int index;
+  final UserData userData;
+  const DataDelete({required this.index, required this.userData});
+}

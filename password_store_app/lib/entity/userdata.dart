@@ -106,6 +106,18 @@ create table IF NOT EXISTS $tableName  (
   }
 
   Future close() async => db.close();
+
+  Future<List<UserData>?> getAll() async {
+    List<Map> maps = await db.query(
+      tableName,
+    );
+    if (maps.length > 0) {
+      return maps.map((e) {
+        return UserData.fromJson(e);
+      }).toList();
+    }
+    return null;
+  }
 }
 
 class UserData {

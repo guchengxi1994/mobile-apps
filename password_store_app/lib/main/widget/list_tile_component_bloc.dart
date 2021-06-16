@@ -68,12 +68,19 @@ class _UserDataWidgetState extends State<UserDataWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // _renderContent(
-              //     "口令类型", _mainBloc.state.userDatas[widget.index].passcodeType,
-              //     fixed: true),
               _renderContentWithBloc(
                   "scheme", _mainBloc.state.userDatas[widget.index].scheme,
                   colorStyle: 0),
+              ElevatedButton(
+                  onPressed: () async {
+                    var res = await showConfirmDialog(context);
+                    print(res);
+                    if (res) {
+                      _mainBloc.add(DataDelete(
+                          index: widget.index, userData: _currentUserData));
+                    }
+                  },
+                  child: Text("移除")),
             ],
           ),
         ),
@@ -145,45 +152,65 @@ class _UserDataWidgetState extends State<UserDataWidget> {
         w = Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            RichText(
-                text: TextSpan(
-              children: [
-                TextSpan(
-                    text: title + ": ",
-                    style: TextStyle(
-                        color: Colors.black, fontSize: _fontSize * 1.0)),
-                TextSpan(
-                    text: content.toString(),
-                    style: TextStyle(
-                        fontSize: _fontSize * 1.0,
-                        fontWeight: FontWeight.bold,
-                        color: colorStyle == 1 ? _backColor : _frontColor)),
-              ],
-            )),
+            Expanded(
+              child: RichText(
+                  text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: title + ": ",
+                      style: TextStyle(
+                          color: Colors.black, fontSize: _fontSize * 1.0)),
+                  TextSpan(
+                      text: content.toString(),
+                      style: TextStyle(
+                          fontSize: _fontSize * 1.0,
+                          fontWeight: FontWeight.bold,
+                          color: colorStyle == 1 ? _backColor : _frontColor)),
+                ],
+              )),
+            ),
             Spacer(),
             strValid(_mainBloc.state.userDatas[widget.index].userPasscode)
-                ? TextButton(
-                    onPressed: () {
-                      print("点击了复制");
-                      Clipboard.setData(ClipboardData(
-                          text: _mainBloc
-                              .state.userDatas[widget.index].userPasscode
-                              .toString()));
-                      Fluttertoast.showToast(
-                          msg: "复制成功",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.blue,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    },
-                    child: Text("复制到剪切板"))
+                ? Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            // print(_currentUserData.userPasscode);
+                            _currentUserData = UserData.fromJson(_mainBloc
+                                .state.userDatas[widget.index]
+                                .toJson());
+                            _currentUserData.userPasscode =
+                                UserPasscodeUtil.generateSalt(length: 12);
+                            // print(_currentUserData.userPasscode);
+                            _mainBloc.add(DataChanged(
+                                index: widget.index,
+                                userData: _currentUserData));
+                          },
+                          child: Text("重设")),
+                      TextButton(
+                          onPressed: () {
+                            print("点击了复制");
+                            Clipboard.setData(ClipboardData(
+                                text: _mainBloc
+                                    .state.userDatas[widget.index].userPasscode
+                                    .toString()));
+                            Fluttertoast.showToast(
+                                msg: "复制成功",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 2,
+                                backgroundColor: Colors.blue,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          },
+                          child: Text("复制"))
+                    ],
+                  )
                 : TextButton(
                     onPressed: () {
                       print("点击了生成");
                       _currentUserData.userPasscode =
-                          "passcode" + widget.index.toString();
+                          UserPasscodeUtil.generateSalt(length: 12);
                       _mainBloc.add(DataChanged(
                           index: widget.index, userData: _currentUserData));
                     },
@@ -215,6 +242,16 @@ class _UserDataWidgetState extends State<UserDataWidget> {
               ],
             )),
             Spacer(),
+            TextButton(
+                onPressed: () async {
+                  var _result = await showCustomDialog(context);
+                  if (_result != "" && _result != null) {
+                    _currentUserData.scheme = _result.toString();
+                    _mainBloc.add(DataChanged(
+                        index: widget.index, userData: _currentUserData));
+                  }
+                },
+                child: Text("修改")),
             TextButton(
               child: Text("跳转"),
               onPressed: () async {

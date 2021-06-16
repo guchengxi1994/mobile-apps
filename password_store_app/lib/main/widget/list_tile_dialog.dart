@@ -42,3 +42,29 @@ Future<String?> showCustomDialog(BuildContext context, {String? title}) async {
   // print(result);
   return result;
 }
+
+showConfirmDialog(BuildContext context) async {
+  return await showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("确定吗？"),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: Text('取消'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: Text('确定'),
+            ),
+          ],
+        );
+      });
+
+  // print(result);
+}
