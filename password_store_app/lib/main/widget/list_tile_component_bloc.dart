@@ -251,9 +251,15 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                                 //     isFuzzy: _currentUserData.isFuzzy!));
                                 // print("*******************");
                                 Clipboard.setData(ClipboardData(
-                                    text: _mainBloc.state
-                                        .userDatas[widget.index].userPasscode
-                                        .toString()));
+                                    text: UserPasscodeUtil.decode(
+                                        _mainBloc.state.userDatas[widget.index]
+                                            .userPasscode!,
+                                        _mainBloc.state.userDatas[widget.index]
+                                            .salt!,
+                                        isFuzzy: _mainBloc
+                                            .state
+                                            .userDatas[widget.index]
+                                            .isFuzzy!)));
                                 Fluttertoast.showToast(
                                     msg: "复制成功",
                                     toastLength: Toast.LENGTH_SHORT,
