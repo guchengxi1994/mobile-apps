@@ -74,9 +74,20 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (_) => MainBloc()..add(DataFetched()),
-        child: UserDataList(),
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 30),
+        child: Center(
+          child: Text(
+            "P for Password",
+            style: TextStyle(color: Colors.blue, fontFamily: "Pangolin"),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: BlocProvider(
+          create: (_) => MainBloc()..add(DataFetched()),
+          child: UserDataList(),
+        ),
       ),
     );
   }

@@ -45,30 +45,32 @@ class GestureVerifyState extends State<GestureVerify> {
         onCompleted: _gestureComplete,
       );
     }
-    return Container(
-      padding: EdgeInsets.all(12),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 12, bottom: 12),
-            child: Center(
-              child: Text(
-                _msg,
-                style: TextStyle(
-                    color: _status == GestureCreateStatus.Verify_Failed
-                        ? Colors.red
-                        : Colors.black),
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 12, bottom: 12),
+              child: Center(
+                child: Text(
+                  _msg,
+                  style: TextStyle(
+                      color: _status == GestureCreateStatus.Verify_Failed
+                          ? Colors.red
+                          : Colors.black),
+                ),
               ),
             ),
-          ),
-          Center(
-            child: SizedBox(
-              width: 300,
-              height: 300,
-              child: _lockPattern,
-            ),
-          )
-        ],
+            Center(
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: _lockPattern,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

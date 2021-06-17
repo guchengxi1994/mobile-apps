@@ -9,9 +9,9 @@ from flask_cors import CORS
 import traceback
 import base64
 
-__cache_folder__ = 'D:\\mobile-apps\\image_similarity_demo\\server\\cache\\'
+# __cache_folder__ = 'D:\\mobile-apps\\image_similarity_demo\\server\\cache\\'
 
-# __cache_folder__ = 'D:\\github_repo\\mobile-apps\\image_similarity_demo\\server\\cache\\'
+__cache_folder__ = 'D:\\github_repo\\mobile-apps\\image_similarity_demo\\server\\cache\\'
 
 #导入三个算子
 toTensor_operator = torchvision.transforms.ToTensor(

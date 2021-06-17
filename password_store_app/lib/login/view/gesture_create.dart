@@ -46,38 +46,40 @@ class GestureCreateState extends State<GestureCreate> {
     }
     return ModalProgressHUD(
       inAsyncCall: _isLoading,
-      child: Container(
-        padding: EdgeInsets.all(12),
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: SizedBox(
-                width: 60,
-                height: 60,
-                child: _indicator,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 12, bottom: 12),
-              child: Center(
-                child: Text(
-                  _msg,
-                  style: TextStyle(
-                      color: (_status == GestureCreateStatus.Verify_Failed ||
-                              _status == GestureCreateStatus.Create_Failed)
-                          ? Colors.red
-                          : Colors.black),
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.all(12),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: _indicator,
                 ),
               ),
-            ),
-            Center(
-              child: SizedBox(
-                width: 300,
-                height: 300,
-                child: _lockPattern,
+              Padding(
+                padding: EdgeInsets.only(top: 12, bottom: 12),
+                child: Center(
+                  child: Text(
+                    _msg,
+                    style: TextStyle(
+                        color: (_status == GestureCreateStatus.Verify_Failed ||
+                                _status == GestureCreateStatus.Create_Failed)
+                            ? Colors.red
+                            : Colors.black),
+                  ),
+                ),
               ),
-            )
-          ],
+              Center(
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: _lockPattern,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
