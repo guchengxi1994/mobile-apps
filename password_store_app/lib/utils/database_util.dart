@@ -55,3 +55,12 @@ Future updateData(UserData userData) async {
   await userProvider.update(userData);
   await userProvider.close();
 }
+
+Future insertToDB(UserData userData) async {
+  UserDataProvider userProvider = UserDataProvider();
+  var databasePath = await getDatabasesPath();
+  String path = join(databasePath, "userdata.db");
+  await userProvider.open(path);
+  await userProvider.insert(userData);
+  await userProvider.close();
+}

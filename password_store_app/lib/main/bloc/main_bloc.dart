@@ -82,8 +82,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   Future<MainState> _addToState(MainState state, DataAdded dataAdded) async {
-    state.userDatas.add(dataAdded.userData);
-    return state.copyWith(MainStatus.changed, state.userDatas);
+    // state.userDatas.add(dataAdded.userData);
+    await insertToDB(dataAdded.userData);
+    return state.copyWith(
+        MainStatus.changed, List.of(state.userDatas)..add(dataAdded.userData));
   }
 
   Future<MainState> _deleteToState(
@@ -94,13 +96,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   Future<List<UserData>?> _fetchUserData() async {
-    /// 用来测试
-    // List<UserData> result = await Future.delayed(Duration.zero).then((value) {
-    //   return [
-    //     UserData(appname: "aaa", userId: "aaa2"),
-    //     UserData(appname: "bbb", userId: "bbb2")
-    //   ];
-    // });
     var res = await fetchUserData();
     return res;
   }

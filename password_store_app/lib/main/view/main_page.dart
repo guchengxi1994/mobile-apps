@@ -57,9 +57,8 @@ class _UserDataListState extends State<UserDataList> {
 
             /// fake result
             if (result != null) {
-              result.appname = "cccc";
-              result.userId = "asdasd";
-
+              // result.appname = "cccc";
+              // result.userId = "asdasd";
               _mainBloc.add(DataAdded(userData: result));
             }
           },
@@ -83,11 +82,9 @@ class MainPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: BlocProvider(
-          create: (_) => MainBloc()..add(DataFetched()),
-          child: UserDataList(),
-        ),
+      body: BlocProvider(
+        create: (_) => MainBloc()..add(DataFetched()),
+        child: UserDataList(),
       ),
     );
   }

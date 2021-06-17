@@ -335,6 +335,10 @@ class _CreateUserDataPageState extends State<CreateUserDataPage> {
                     ),
                     ElevatedButton(
                         onPressed: () {
+                          _userData?.appname = appController.text;
+                          _userData?.userPasscode = passcodeController.text;
+                          _userData?.scheme = schemeController.text;
+                          _userData?.userId = usernameController.text;
                           Navigator.pop(context, _userData);
                         },
                         child: Text("提交")),

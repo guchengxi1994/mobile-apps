@@ -213,7 +213,7 @@ class _UserDataWidgetState extends State<UserDataWidget> {
             Row(
               children: [
                 Expanded(
-                  child: Text(content,
+                  child: Text(content ?? "",
                       style: TextStyle(
                           color: Colors.black, fontSize: _fontSize * 1.0)),
                 ),
@@ -434,6 +434,8 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                 onPressed: () async {
                   var _result = await showCustomDialog(context);
                   if (_result != "" && _result != null) {
+                    _currentUserData = UserData.fromJson(
+                        _mainBloc.state.userDatas[widget.index].toJson());
                     _currentUserData.scheme = _result.toString();
                     _mainBloc.add(DataChanged(
                         index: widget.index, userData: _currentUserData));
@@ -476,7 +478,17 @@ class _UserDataWidgetState extends State<UserDataWidget> {
               child: Text("修改"),
               onPressed: () async {
                 // print("点击了修改");
-                var result = showCustomDialog(context);
+                _currentUserData = UserData.fromJson(
+                    _mainBloc.state.userDatas[widget.index].toJson());
+                var result = await showCustomDialog(context);
+                // print(result);
+                if (title == "应用名称") {
+                  _currentUserData.appname = result;
+                } else {
+                  _currentUserData.userId = result;
+                }
+                _mainBloc.add(DataChanged(
+                    index: widget.index, userData: _currentUserData));
               },
             ),
           ],
