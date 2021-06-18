@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:password_store_app/utils/sharepreferenceUtil.dart';
+import 'package:password_store_app/utils/routers.dart';
+import 'package:password_store_app/utils/sharedpreference_util.dart';
 import 'package:gesture_unlock/lock_pattern.dart';
 
 class GestureVerifyPage extends StatelessWidget {
@@ -25,8 +26,8 @@ class GestureVerifyState extends State<GestureVerify> {
   var _status = GestureCreateStatus.Verify;
   var _msg = "请绘制解锁手势";
   var _failedCount = 0;
-  LockPattern _lockPattern;
-  String _localPassword;
+  LockPattern? _lockPattern;
+  String? _localPassword;
 
   @override
   void initState() {
@@ -44,30 +45,32 @@ class GestureVerifyState extends State<GestureVerify> {
         onCompleted: _gestureComplete,
       );
     }
-    return Container(
-      padding: EdgeInsets.all(12),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 12, bottom: 12),
-            child: Center(
-              child: Text(
-                _msg,
-                style: TextStyle(
-                    color: _status == GestureCreateStatus.Verify_Failed
-                        ? Colors.red
-                        : Colors.black),
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 12, bottom: 12),
+              child: Center(
+                child: Text(
+                  _msg,
+                  style: TextStyle(
+                      color: _status == GestureCreateStatus.Verify_Failed
+                          ? Colors.red
+                          : Colors.black),
+                ),
               ),
             ),
-          ),
-          Center(
-            child: SizedBox(
-              width: 300,
-              height: 300,
-              child: _lockPattern,
-            ),
-          )
-        ],
+            Center(
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: _lockPattern,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -81,16 +84,18 @@ class GestureVerifyState extends State<GestureVerify> {
           print(password);
           if (_localPassword == password) {
             _msg = "解锁成功";
-            _lockPattern.updateStatus(LockPatternStatus.Success);
+            _lockPattern?.updateStatus(LockPatternStatus.Success);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routers.main, (route) => route == null);
           } else {
             _failedCount++;
             if (_failedCount >= 5) {
               _status = GestureCreateStatus.Verify_Failed_Count_Overflow;
-              _lockPattern.updateStatus(LockPatternStatus.Disable);
+              _lockPattern?.updateStatus(LockPatternStatus.Disable);
               _msg = "多次验证失败，请5分钟后再次尝试";
             } else {
               _status = GestureCreateStatus.Verify_Failed;
-              _lockPattern.updateStatus(LockPatternStatus.Failed);
+              _lockPattern?.updateStatus(LockPatternStatus.Failed);
               _msg = "验证失败，请重新尝试";
             }
           }

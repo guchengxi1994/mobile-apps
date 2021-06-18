@@ -18,23 +18,19 @@ bool int2bool(int a) {
 }
 
 class UserPasscodeUtil {
-  static List<String> encode(String psc, {int saltLength = 10}) {
+  static List<String> encode(String psc, {int saltLength = 6}) {
     String code = '';
     String b64Code = encodeBase64(psc);
     int pscLength = b64Code.length;
     String salt = '';
     while (true) {
-      salt = generateSalt();
+      salt = generateSalt(length: saltLength);
       if (!psc.contains(salt)) {
         if (pscLength == 0) {
           code = salt;
         } else {
           List l = pscSplit(b64Code);
           code = l[0] + salt + l[1];
-          // print("======================");
-          // print(l[0]);
-          // print(l[1]);
-          // print("======================");
         }
         break;
       }
@@ -42,12 +38,37 @@ class UserPasscodeUtil {
     return [code, salt];
   }
 
-  static String decode(String psc, String salt) {
-    return decodeBase64(psc.replaceAll(psc, salt));
+  static List<String?>? generateRandomPasscode({bool isFuzzy = true}) {
+    List<String> l = encode("", saltLength: 12);
+    String res = l[0];
+    // print('========================================');
+    // print(l[0]);
+    // print('========================================');
+
+    if (isFuzzy) {
+      res = encodeBase64(l[0]);
+    }
+    String salt = generateSalt(length: 6);
+    List spl = pscSplit(res);
+    var code = spl[0] + salt + spl[1];
+    // print(salt);
+    // print(spl[0]);
+    // print(spl[1]);
+    // print(code);
+
+    return [code, salt];
+  }
+
+  static String decode(String psc, String salt, {bool isFuzzy = true}) {
+    if (isFuzzy) {
+      return decodeBase64(psc.replaceAll(salt, ""));
+    } else {
+      return psc.replaceAll(salt, "");
+    }
   }
 
   static String alphabet =
-      "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+      "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#%*&";
 
   static String generateSalt({int length = 10}) {
     String left = '';
@@ -80,4 +101,34 @@ class UserPasscodeUtil {
   static String decodeBase64(String data) {
     return String.fromCharCodes(base64Decode(data));
   }
+}
+
+bool strValid(String? s) {
+  if (null != s && s != "") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/// 弃用
+bool listEquals(List l1, List l2) {
+  if (l1.length != l2.length) {
+    return false;
+  }
+
+  bool flag = true;
+  final int length = l1.length;
+  try {
+    for (var i = 0; i < length; i++) {
+      if (l1[i] != l2[i]) {
+        flag = false;
+        break;
+      }
+    }
+  } catch (e) {
+    flag = false;
+  }
+
+  return flag;
 }

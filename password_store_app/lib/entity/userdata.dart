@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:password_store_app/utils/common.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,12 +30,15 @@ final String columnIsFuzzy = 'isFuzzy';
 /// 混淆字符串 盐
 final String columnSalt = "salt";
 
+/// scheme 跳转
+final String columnScheme = "scheme";
+
 /// 操作todo表的工具类
 class UserDataProvider {
   /// 单例
   factory UserDataProvider() => _getInstance();
   static UserDataProvider get instance => _getInstance();
-  static UserDataProvider _instance;
+  static UserDataProvider? _instance;
 
   UserDataProvider._internal();
 
@@ -41,10 +46,10 @@ class UserDataProvider {
     if (_instance == null) {
       _instance = UserDataProvider._internal();
     }
-    return _instance;
+    return _instance!;
   }
 
-  Database db;
+  late Database db;
 
   /// 打开数据库，并创建todo表
   Future open(String path) async {
@@ -56,10 +61,11 @@ create table IF NOT EXISTS $tableName  (
   $columnUserId text not null,
   $columnUserPasscode text ,
   $columnPasscodeType text ,
-  $columnAppname text ,
+  $columnAppname text not null,
   $columnIsRandom integer ,
   $columnIsFuzzy integer ,
-  $columnSalt text);
+  $columnSalt text,
+  $columnScheme text);
 ''');
     });
   }
@@ -69,7 +75,7 @@ create table IF NOT EXISTS $tableName  (
     return todo;
   }
 
-  Future<UserData> getTodo(int id) async {
+  Future<UserData?> getTodo(int id) async {
     List<Map> maps = await db.query(tableName,
         columns: [
           columnId,
@@ -79,7 +85,8 @@ create table IF NOT EXISTS $tableName  (
           columnAppname,
           columnIsRandom,
           columnIsFuzzy,
-          columnSalt
+          columnSalt,
+          columnScheme
         ],
         where: '$columnId = ?',
         whereArgs: [id]);
@@ -99,34 +106,48 @@ create table IF NOT EXISTS $tableName  (
   }
 
   Future close() async => db.close();
+
+  Future<List<UserData>?> getAll() async {
+    List<Map> maps = await db.query(
+      tableName,
+    );
+    if (maps.length > 0) {
+      return maps.map((e) {
+        return UserData.fromJson(e);
+      }).toList();
+    }
+    return null;
+  }
 }
 
 class UserData {
-  int rid; // row id
-  String userId;
-  String userPasscode;
-  String passcodeType;
-  String appname;
-  bool isRandom;
-  bool isFuzzy;
-  String salt;
+  int? rid; // row id
+  String? userId;
+  String? userPasscode;
+  String? passcodeType;
+  String? appname;
+  bool? isRandom;
+  bool? isFuzzy;
+  String? salt;
+  String? scheme;
 
   UserData(
       {this.rid,
-      this.userId,
+      @required this.userId,
       this.userPasscode,
       this.passcodeType,
-      this.appname,
+      @required this.appname,
       this.isRandom,
       this.isFuzzy,
-      this.salt});
+      this.salt,
+      this.scheme});
 
-  UserData.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<dynamic, dynamic> json) {
     rid = json['rid'];
     userId = json['userId'];
     userPasscode = json['userPasscode'];
     passcodeType = json['passcodeType'];
-    appname = json['appname'];
+    appname = json['appname'] ?? "";
     isRandom = json['isRandom'].runtimeType == bool
         ? json['isRandom']
         : int2bool(json['isRandom']);
@@ -134,6 +155,7 @@ class UserData {
         ? json['isFuzzy']
         : int2bool(json['isFuzzy']);
     salt = json['salt'] ?? "";
+    scheme = json['scheme'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -146,19 +168,63 @@ class UserData {
     if (null != this.isRandom) {
       data['isRandom'] = this.isRandom.runtimeType == int
           ? this.isRandom
-          : bool2int(this.isRandom);
+          : bool2int(this.isRandom!);
     } else {
       data['isRandom'] = 0;
     }
     if (this.isFuzzy != null) {
       data['isFuzzy'] = this.isFuzzy.runtimeType == int
           ? this.isFuzzy
-          : bool2int(this.isFuzzy);
+          : bool2int(this.isFuzzy!);
     } else {
       data['isFuzzy'] = 1;
     }
     data['salt'] = this.salt ?? "";
+    data["scheme"] = this.scheme ?? "";
 
     return data;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (this.runtimeType != other.runtimeType) {
+      return false;
+    }
+    // ignore: test_types_in_equals
+    other = other as UserData;
+    return identical(this, other) ||
+        (this.appname == other.appname &&
+            this.isFuzzy == other.isFuzzy &&
+            this.isRandom == other.isRandom &&
+            this.passcodeType == other.passcodeType &&
+            this.rid == other.rid &&
+            this.salt == other.salt &&
+            this.scheme == other.scheme &&
+            this.userId == other.userId &&
+            this.userPasscode == other.userPasscode);
+  }
+
+  void clear() {
+    this.appname = "";
+    this.isFuzzy = true;
+    this.isRandom = false;
+    this.passcodeType = "";
+    this.salt = "";
+    this.scheme = "";
+    this.userId = "";
+    this.userPasscode = "";
+  }
+
+  static void test_compare() {
+    UserData userData1 = UserData(userId: "1111", appname: "111111");
+    UserData userData2 = UserData(userId: "2222", appname: "222222");
+    print(userData2 == userData1);
+    UserData userData3 =
+        UserData(userId: "1111", appname: "111111", userPasscode: "usercode");
+    print(userData3 == userData1);
   }
 }

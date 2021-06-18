@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xiaoshuyui.password_store_app">
    <application
-        android:label="password_store_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="P-Guard"
+        android:icon="@mipmap/icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
