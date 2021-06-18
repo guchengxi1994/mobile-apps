@@ -487,14 +487,15 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                 _currentUserData = UserData.fromJson(
                     _mainBloc.state.userDatas[widget.index].toJson());
                 var result = await showCustomDialog(context);
-                // print(result);
-                if (title == "应用名称") {
-                  _currentUserData.appname = result;
-                } else {
-                  _currentUserData.userId = result;
+                if (null != result) {
+                  if (title == "应用名称") {
+                    _currentUserData.appname = result;
+                  } else {
+                    _currentUserData.userId = result;
+                  }
+                  _mainBloc.add(DataChanged(
+                      index: widget.index, userData: _currentUserData));
                 }
-                _mainBloc.add(DataChanged(
-                    index: widget.index, userData: _currentUserData));
               },
             ),
           ],

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<String> showCustomDialog(BuildContext context, {String? title}) async {
+Future<String?> showCustomDialog(BuildContext context, {String? title}) async {
   String result = await showCupertinoDialog(
       context: context,
       builder: (context) {
