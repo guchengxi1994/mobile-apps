@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:password_store_app/entity/userdata.dart';
 import 'package:password_store_app/main/bloc/main_bloc.dart';
+import 'package:password_store_app/main/view/local_auth_with_fingerprinter.dart';
 import 'package:password_store_app/main/widget/list_tile_dialog.dart';
 import 'package:password_store_app/utils/color_utils.dart';
 import 'package:password_store_app/utils/common.dart';
@@ -241,33 +242,45 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                               },
                               child: Text("重设")),
                           TextButton(
-                              onPressed: () {
-                                // print("点击了复制");
-                                // print("*******************");
-                                // print(_currentUserData.isFuzzy);
-                                // print(UserPasscodeUtil.decode(
-                                //     _currentUserData.userPasscode!,
-                                //     _currentUserData.salt!,
-                                //     isFuzzy: _currentUserData.isFuzzy!));
-                                // print("*******************");
-                                Clipboard.setData(ClipboardData(
-                                    text: UserPasscodeUtil.decode(
-                                        _mainBloc.state.userDatas[widget.index]
-                                            .userPasscode!,
-                                        _mainBloc.state.userDatas[widget.index]
-                                            .salt!,
-                                        isFuzzy: _mainBloc
-                                            .state
-                                            .userDatas[widget.index]
-                                            .isFuzzy!)));
-                                Fluttertoast.showToast(
-                                    msg: "复制成功",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 2,
-                                    backgroundColor: Colors.blue,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
+                              onPressed: () async {
+                                // local_auth
+                                LocalAuthSingleton singleton =
+                                    LocalAuthSingleton();
+                                if (await singleton.checkBiometrics()) {
+                                  var res =
+                                      await singleton.authenticate(context);
+                                  if (res) {
+                                    Clipboard.setData(ClipboardData(
+                                        text: UserPasscodeUtil.decode(
+                                            _mainBloc
+                                                .state
+                                                .userDatas[widget.index]
+                                                .userPasscode!,
+                                            _mainBloc.state
+                                                .userDatas[widget.index].salt!,
+                                            isFuzzy: _mainBloc
+                                                .state
+                                                .userDatas[widget.index]
+                                                .isFuzzy!)));
+                                    Fluttertoast.showToast(
+                                        msg: "复制成功",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 2,
+                                        backgroundColor: Colors.blue,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: "未设定指纹验证，请取消混淆并重置密码后手动输入",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 2,
+                                      backgroundColor: Colors.blue,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                }
                               },
                               child: Text("复制"))
                         ],

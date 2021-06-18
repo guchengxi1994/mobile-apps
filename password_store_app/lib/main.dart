@@ -21,9 +21,10 @@ main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   var isFirstTimeStart = await getIsFirstLogin();
   // await testSqlite();
+  // setupLocator();
   runApp(new MaterialApp(
     routes: Routers.routers,
     home: isFirstTimeStart ? GestureCreatePage() : GestureVerifyPage(),
-    // home: MainPage(),
+    // home: MyApp(),
   ));
 }

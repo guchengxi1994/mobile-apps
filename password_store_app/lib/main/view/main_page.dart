@@ -73,14 +73,10 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 30),
-        child: Center(
-          child: Text(
-            "P for Password",
-            style: TextStyle(color: Colors.blue, fontFamily: "Pangolin"),
-          ),
-        ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("P for Password",
+            style: TextStyle(color: Colors.white, fontFamily: "Pangolin")),
       ),
       body: BlocProvider(
         create: (_) => MainBloc()..add(DataFetched()),
