@@ -8,7 +8,7 @@
  * @LastEditTime: 2021-06-18 16:18:24
  */
 
-part of 'package:password_store_app/main/view/main_page.dart';
+part of 'package:password_store_app/pages/main/view/main_page.dart';
 
 class UserDataList extends StatefulWidget {
   @override

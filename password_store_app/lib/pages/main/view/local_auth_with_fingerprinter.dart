@@ -9,9 +9,6 @@ class LocalAuthSingleton {
   LocalAuthentication? auth;
 
   LocalAuthSingleton._internal() {
-    // print("=====================");
-    // print(auth == null);
-    // print("=====================");
     if (null == auth) {
       auth = new LocalAuthentication();
     }

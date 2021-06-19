@@ -11,13 +11,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:password_store_app/entity/userdata.dart';
-import 'package:password_store_app/main/bloc/main_bloc.dart';
+import 'package:password_store_app/pages/main/bloc/main_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:password_store_app/main/widget/list_tile_component_bloc.dart';
+import 'package:password_store_app/pages/main/widget/list_tile_component_bloc.dart';
 import 'package:password_store_app/utils/routers.dart';
 
-part 'package:password_store_app/main/view/main_list_page.dart';
-part 'package:password_store_app/main/view/main_settings_page.dart';
+part 'package:password_store_app/pages/main/view/main_list_page.dart';
+part 'package:password_store_app/pages/main/view/main_settings_page.dart';
 
 class MainPage extends StatelessWidget {
   @override

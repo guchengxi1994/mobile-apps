@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_store_app/auth/auth_utils.dart';
 import 'package:password_store_app/utils/routers.dart';
 import 'package:password_store_app/utils/sharedpreference_util.dart';
 
@@ -106,7 +107,7 @@ class GestureCreateState extends State<GestureCreate> {
         case GestureCreateStatus.Verify_Failed:
           var password = LockPattern.selectedToString(selected);
           if (_gesturePassword == password) {
-            _msg = "设置成功,手势密码为$password";
+            // _msg = "设置成功,手势密码为$password";
             // Strings.gesturePassword = password;
             this._isLoading = true;
             Future.delayed(Duration.zero, () {
@@ -129,12 +130,4 @@ class GestureCreateState extends State<GestureCreate> {
       }
     });
   }
-}
-
-enum GestureCreateStatus {
-  Create,
-  Create_Failed,
-  Verify,
-  Verify_Failed,
-  Verify_Failed_Count_Overflow
 }

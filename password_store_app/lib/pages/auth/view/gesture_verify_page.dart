@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_store_app/auth/auth_utils.dart';
 import 'package:password_store_app/utils/routers.dart';
 import 'package:password_store_app/utils/sharedpreference_util.dart';
 import 'package:gesture_unlock/lock_pattern.dart';
@@ -107,12 +108,4 @@ class GestureVerifyState extends State<GestureVerify> {
       }
     });
   }
-}
-
-enum GestureCreateStatus {
-  Create,
-  Create_Failed,
-  Verify,
-  Verify_Failed,
-  Verify_Failed_Count_Overflow
 }

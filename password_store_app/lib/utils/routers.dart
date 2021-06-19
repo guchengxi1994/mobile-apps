@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:password_store_app/login/view/gesture_verify.dart';
-import 'package:password_store_app/main/view/create_user_data.dart';
-import 'package:password_store_app/main/view/main_page.dart';
+import 'package:password_store_app/pages/auth/auth_view.dart';
+import 'package:password_store_app/pages/main/view/create_user_data.dart';
+import 'package:password_store_app/pages/main/view/main_page.dart';
 
 class Routers {
   static final createUserData = "createUserData";
