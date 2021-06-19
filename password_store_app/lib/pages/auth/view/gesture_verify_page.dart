@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_store_app/auth/auth_utils.dart';
+import 'package:password_store_app/pages/auth/auth_page_utils.dart';
 import 'package:password_store_app/utils/routers.dart';
 import 'package:password_store_app/utils/sharedpreference_util.dart';
 import 'package:gesture_unlock/lock_pattern.dart';

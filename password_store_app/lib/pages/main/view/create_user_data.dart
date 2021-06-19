@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:password_store_app/entity/userdata.dart';
-import 'package:password_store_app/pages/main/bloc/main_bloc.dart';
+import 'package:password_store_app/pages/main/main_page_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:password_store_app/utils/common.dart';
+import 'package:password_store_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CreateUserDataPage extends StatefulWidget {

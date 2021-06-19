@@ -3,8 +3,8 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:password_store_app/entity/userdata.dart';
-import 'package:password_store_app/pages/main/widget/list_tile_dialog.dart';
-import 'package:password_store_app/utils/common.dart';
+import 'package:password_store_app/pages/main/main_page_widget.dart';
+import 'package:password_store_app/utils/utils.dart';
 
 final double _padding = 32;
 
