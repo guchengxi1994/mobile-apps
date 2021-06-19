@@ -148,4 +148,9 @@ class CommonUtil {
   static screenH() {
     return _height;
   }
+
+  static String appIcon = 'assets/images/icon.png';
+  static String appName = "P-Guard";
 }
+
+const unLockMethods = ["默认：手势解锁", "密码解锁", "指纹解锁"];

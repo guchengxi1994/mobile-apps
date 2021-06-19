@@ -82,7 +82,7 @@ class GestureVerifyState extends State<GestureVerify> {
         case GestureCreateStatus.Verify:
         case GestureCreateStatus.Verify_Failed:
           var password = LockPattern.selectedToString(selected);
-          print(password);
+          // print(password);
           if (_localPassword == password) {
             _msg = "解锁成功";
             _lockPattern?.updateStatus(LockPatternStatus.Success);

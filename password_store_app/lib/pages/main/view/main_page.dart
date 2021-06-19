@@ -10,14 +10,19 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
+import 'package:password_store_app/entity/user_settings.dart';
 import 'package:password_store_app/entity/userdata.dart';
+import 'package:password_store_app/pages/main/bloc/settings_bloc.dart';
 import 'package:password_store_app/pages/main/main_page_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_store_app/pages/main/main_page_widget.dart';
 import 'package:password_store_app/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'package:password_store_app/pages/main/view/main_list_page.dart';
-part 'package:password_store_app/pages/main/view/main_settings_page.dart';
+part 'package:password_store_app/pages/main/view/settings_page.dart';
 
 class MainListPage extends StatelessWidget {
   @override
@@ -41,10 +46,9 @@ class MainSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("Settings"),
-      ),
+    return BlocProvider(
+      create: (_) => SettingsBloc()..add(SettingsFetched()),
+      child: SettingsPage(),
     );
   }
 }
