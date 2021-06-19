@@ -14,7 +14,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info/package_info.dart';
 import 'package:password_store_app/entity/user_settings.dart';
 import 'package:password_store_app/entity/userdata.dart';
-import 'package:password_store_app/pages/main/bloc/settings_bloc.dart';
 import 'package:password_store_app/pages/main/main_page_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_store_app/pages/main/main_page_widget.dart';
