@@ -45,11 +45,11 @@ class _LauchPageState extends State<LauchPage> {
           eventBus.destroy();
           var isFirstTimeStart = await getIsFirstLogin();
           if (isFirstTimeStart) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                Routers.create, (route) => route == null);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(Routers.create, (route) => false);
           } else {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                Routers.verify, (route) => route == null);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
           }
         }
       });
@@ -114,7 +114,7 @@ class _LauchPageState extends State<LauchPage> {
                     )),
                 Positioned(
                   top: 30,
-                  right: 50,
+                  right: CommonUtil.screenW() * 0.05,
                   child: TextButton(
                       onPressed: () async {
                         _timer.cancel();

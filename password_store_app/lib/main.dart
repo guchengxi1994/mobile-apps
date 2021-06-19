@@ -17,6 +17,7 @@ main(List<String> args) async {
   Bloc.observer = Observer();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(new MaterialApp(
+    routes: Routers.routers,
     home: LauchPage(),
     // home: TextPasscodeCreatePage(),
   ));
