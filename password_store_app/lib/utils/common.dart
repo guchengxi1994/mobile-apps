@@ -153,4 +153,4 @@ class CommonUtil {
   static String appName = "P-Guard";
 }
 
-const unLockMethods = ["默认：手势解锁", "密码解锁", "指纹解锁"];
+const unLockMethods = ["默认：手势解锁", "密码解锁", "指纹解锁（不安全）"];

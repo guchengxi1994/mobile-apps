@@ -25,6 +25,7 @@ import 'package:password_store_app/pages/main/view/local_auth_with_fingerprinter
 
 part 'package:password_store_app/pages/main/view/main_list_page.dart';
 part 'package:password_store_app/pages/main/view/settings_page.dart';
+part 'package:password_store_app/pages/main/view/extra_components_page.dart';
 
 class MainListPage extends StatelessWidget {
   @override
@@ -65,7 +66,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
-  static List<Widget> pages = [MainListPage(), MainSettingsPage()];
+  static List<Widget> pages = [
+    MainListPage(),
+    ExtraComponents(),
+    MainSettingsPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +90,7 @@ class _MainPageState extends State<MainPage> {
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
+          BottomNavigationBarItem(icon: Icon(Icons.work), label: "工具"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "设置"),
         ],
       ),

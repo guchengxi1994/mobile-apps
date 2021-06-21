@@ -48,25 +48,40 @@ class _UserDataListState extends State<UserDataList> {
                 );
               }
             }),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 40,
-            color: Colors.black,
-          ),
-          onPressed: () async {
-            // print('FloatingActionButton');
-            UserData result = await Navigator.of(context)
-                .pushNamed(Routers.createUserData) as UserData;
+        floatingActionButton: Column(
+          children: [
+            FloatingActionButton(
+              child: Icon(
+                Icons.search,
+                size: 40,
+                color: Colors.black,
+              ),
+              onPressed: () async {
+                // print('FloatingActionButton');
+              },
+              backgroundColor: Colors.yellow,
+            ),
+            FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                size: 40,
+                color: Colors.black,
+              ),
+              onPressed: () async {
+                // print('FloatingActionButton');
+                UserData result = await Navigator.of(context)
+                    .pushNamed(Routers.createUserData) as UserData;
 
-            /// fake result
-            if (result != null) {
-              // result.appname = "cccc";
-              // result.userId = "asdasd";
-              _mainBloc.add(DataAdded(userData: result));
-            }
-          },
-          backgroundColor: Colors.yellow,
+                /// fake result
+                if (result != null) {
+                  // result.appname = "cccc";
+                  // result.userId = "asdasd";
+                  _mainBloc.add(DataAdded(userData: result));
+                }
+              },
+              backgroundColor: Colors.yellow,
+            )
+          ],
         ),
       );
     });

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:password_store_app/pages/launch/utils/common.dart';
 import 'package:password_store_app/pages/launch/widgets/vertical_text_widget.dart';
+import 'package:password_store_app/pages/main/view/local_auth_with_fingerprinter.dart';
 import 'package:password_store_app/utils/utils.dart';
 
 EventBus eventBus = new EventBus();
@@ -175,8 +177,23 @@ class _LauchPageState extends State<LauchPage> {
               .pushNamedAndRemoveUntil(Routers.textVerify, (route) => false);
         }
       } else {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
+        LocalAuthSingleton singleton = LocalAuthSingleton();
+        var res = await singleton.authenticate(context);
+        if (res) {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(Routers.main, (route) => false);
+        } else {
+          Fluttertoast.showToast(
+              msg: "身份验证失败",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.blue,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
+        }
       }
     }
   }
