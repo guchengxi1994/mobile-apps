@@ -10,6 +10,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   var _futureVersionBuilder;
   late SettingsBloc _settingsBloc;
+  bool setted = false;
+  bool available = false;
 
   @override
   void initState() {
@@ -30,6 +32,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // setted = _settingsBloc.state.settings.pscAvailable;
+    // available = _settingsBloc.state.settings.fingerprintAvailable;
+    // print("*****************************");
+    // print(setted);
+    // print(available);
+    // print("*****************************");
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
@@ -150,6 +158,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                       BorderSide(color: Colors.grey[200]!))),
                         ),
                         onTap: () async {
+                          bool f2 = _settingsBloc.state.settings.pscAvailable;
+                          bool f3 =
+                              _settingsBloc.state.settings.fingerprintAvailable;
                           var result = await showCupertinoDialog(
                               context: context,
                               builder: (context) {
@@ -160,31 +171,174 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ),
                                   children: [
                                     SimpleDialogOption(
-                                      child: Text("1. 默认：手势解锁"),
+                                      child: Text("1. 默认：手势解锁 "),
                                       onPressed: () {
                                         Navigator.of(context).pop(1);
                                       },
                                     ),
                                     SimpleDialogOption(
-                                      child: Text("2. 密码解锁"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(2);
+                                      child: Text(
+                                          "2. 密码解锁 " + (f2 ? "已设定" : "未设定")),
+                                      onPressed: () async {
+                                        if (!f2) {
+                                          var _b = await showCupertinoDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return CupertinoAlertDialog(
+                                                  title: Text(
+                                                    "密码解锁尚未设定，\n是否前去设置？",
+                                                    style: TextStyle(
+                                                        color: Colors.blue),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                        child: Text("取消"),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context,
+                                                                false)),
+                                                    FlatButton(
+                                                        child: Text("确定"),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context, true)),
+                                                  ],
+                                                );
+                                              });
+
+                                          if (_b) {
+                                            print("跳转");
+                                            setted = await Navigator.of(context)
+                                                .pushNamed(
+                                                    Routers.textCreate) as bool;
+                                            // _settingsBloc.add(SettingsChanged(settings: UserSettings()));
+                                            await setPscAvailable(true);
+                                          } else {
+                                            print("取消");
+                                            setted = _settingsBloc
+                                                .state.settings.pscAvailable;
+                                          }
+                                        }
+                                        // print("+++++++++++++++");
+                                        // print(setted);
+                                        // print(_settingsBloc
+                                        //     .state.settings.pscAvailable);
+                                        // print("+++++++++++++++");
+                                        if (setted ||
+                                            _settingsBloc
+                                                .state.settings.pscAvailable) {
+                                          Navigator.of(context).pop(2);
+                                        } else {
+                                          Navigator.of(context).pop(1);
+                                        }
                                       },
                                     ),
                                     SimpleDialogOption(
-                                      child: Text("3. 指纹解锁"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(3);
-                                      },
-                                    )
+                                        child: Text(
+                                            "3. 指纹解锁 " + (f3 ? "已设定" : "未设定")),
+                                        onPressed: () async {
+                                          if (!f3) {
+                                            var _b = await showCupertinoDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return CupertinoAlertDialog(
+                                                    title: Text(
+                                                      "指纹解锁尚未设定，\n是否前去设置？",
+                                                      style: TextStyle(
+                                                          color: Colors.blue),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      FlatButton(
+                                                          child: Text("取消"),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  false)),
+                                                      FlatButton(
+                                                          child: Text("确定"),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  true)),
+                                                    ],
+                                                  );
+                                                });
+
+                                            if (_b) {
+                                              print("跳转");
+                                              LocalAuthSingleton l =
+                                                  LocalAuthSingleton();
+                                              available = (await l
+                                                      .getAvailableBiometrics())
+                                                  .contains(BiometricType
+                                                      .fingerprint);
+                                            } else {
+                                              // available = _settingsBloc
+                                              //     .state
+                                              //     .settings
+                                              //     .fingerprintAvailable;
+                                              print("取消");
+                                            }
+                                          }
+
+                                          if (available) {
+                                            Navigator.of(context).pop(3);
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: "不支持指纹解锁",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 2,
+                                                backgroundColor: Colors.blue,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                            Navigator.of(context).pop(1);
+                                          }
+                                        }),
                                   ],
                                 );
                               });
-                          debugPrint(result.toString());
-                          _settingsBloc.add(
-                              SettingsChanged(settings: UserSettings(result)));
+
+                          // print("===================");
+                          // debugPrint(result.toString());
+                          // debugPrint(_settingsBloc.state.settings.pscAvailable
+                          //     .toString());
+                          // debugPrint(available.toString());
+                          // print("===================");
+                          _settingsBloc.add(SettingsChanged(
+                              settings: UserSettings(
+                                  result,
+                                  _settingsBloc.state.settings.gestureAvailable,
+                                  setted ||
+                                      _settingsBloc.state.settings.pscAvailable,
+                                  available ||
+                                      _settingsBloc.state.settings
+                                          .fingerprintAvailable)));
                         },
                       ),
+                      _settingsBloc.state.settings.pscAvailable
+                          ? InkWell(
+                              child: Container(
+                                width: CommonUtil.screenW() * 0.9,
+                                child: ListTile(
+                                  title: Text("修改解锁密码"),
+                                  trailing: Icon(Icons.chevron_right,
+                                      color: Colors.grey[200]),
+                                ),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        top: BorderSide(
+                                            color: Colors.grey[200]!),
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200]!))),
+                              ),
+                              onTap: () async {
+                                var changed = await Navigator.of(context)
+                                    .pushNamed(Routers.textCreate) as bool;
+                                print(changed);
+                              },
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

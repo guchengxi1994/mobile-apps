@@ -43,14 +43,31 @@ class _LauchPageState extends State<LauchPage> {
           timer.cancel();
           _timer.cancel();
           eventBus.destroy();
-          var isFirstTimeStart = await getIsFirstLogin();
-          if (isFirstTimeStart) {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(Routers.create, (route) => false);
-          } else {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
-          }
+          _selfNavigator();
+          // var isFirstTimeStart = await getIsFirstLogin();
+          // if (isFirstTimeStart) {
+          //   Navigator.of(context)
+          //       .pushNamedAndRemoveUntil(Routers.create, (route) => false);
+          // } else {
+          //   int method = await getAppUnlockMethod();
+          //   if (method == 1) {
+          //     Navigator.of(context)
+          //         .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
+          //   } else if (method == 2) {
+          //     String? psc = await getPscUnlock();
+          //     if (null == psc) {
+          //       Navigator.of(context).pushNamedAndRemoveUntil(
+          //           Routers.textCreate, (route) => false,
+          //           arguments: 1);
+          //     } else {
+          //       Navigator.of(context).pushNamedAndRemoveUntil(
+          //           Routers.textVerify, (route) => false);
+          //     }
+          //   } else {
+          //     Navigator.of(context)
+          //         .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
+          //   }
+          // }
         }
       });
     } catch (e) {
@@ -119,14 +136,15 @@ class _LauchPageState extends State<LauchPage> {
                       onPressed: () async {
                         _timer.cancel();
                         eventBus.destroy();
-                        var isFirstTimeStart = await getIsFirstLogin();
-                        if (isFirstTimeStart) {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              Routers.create, (route) => route == null);
-                        } else {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              Routers.verify, (route) => route == null);
-                        }
+                        _selfNavigator();
+                        // var isFirstTimeStart = await getIsFirstLogin();
+                        // if (isFirstTimeStart) {
+                        //   Navigator.of(context).pushNamedAndRemoveUntil(
+                        //       Routers.create, (route) => route == null);
+                        // } else {
+                        //   Navigator.of(context).pushNamedAndRemoveUntil(
+                        //       Routers.verify, (route) => route == null);
+                        // }
                       },
                       child: TextWidget()),
                 )
@@ -134,6 +152,33 @@ class _LauchPageState extends State<LauchPage> {
             )),
       ),
     );
+  }
+
+  _selfNavigator() async {
+    var isFirstTimeStart = await getIsFirstLogin();
+    if (isFirstTimeStart) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(Routers.create, (route) => false);
+    } else {
+      int method = await getAppUnlockMethod();
+      if (method == 1) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
+      } else if (method == 2) {
+        String? psc = await getPscUnlock();
+        if (null == psc) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routers.textCreate, (route) => false,
+              arguments: 1);
+        } else {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(Routers.textVerify, (route) => false);
+        }
+      } else {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(Routers.verify, (route) => false);
+      }
+    }
   }
 }
 

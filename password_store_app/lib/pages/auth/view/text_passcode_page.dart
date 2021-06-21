@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:password_store_app/utils/sharedpreference_util.dart';
+import 'package:password_store_app/utils/utils.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class TextPasscodeVerifyPage extends StatefulWidget {
@@ -33,13 +36,13 @@ class _TextPasscodeVerifyPageState extends State<TextPasscodeVerifyPage> {
   @override
   void initState() {
     super.initState();
-    _pinEditingController.addListener(() {
-      String currentCode = "";
-      if (currentCode != _pinEditingController.text) {
-        debugPrint('controller execute. pin:${_pinEditingController.text}');
-        currentCode = _pinEditingController.text;
-      }
-    });
+    // _pinEditingController.addListener(() {
+    //   String currentCode = "";
+    //   if (currentCode != _pinEditingController.text) {
+    //     // debugPrint('controller execute. pin:${_pinEditingController.text}');
+    //     currentCode = _pinEditingController.text;
+    //   }
+    // });
     _pinDecoration = BoxTightDecoration(
       bgColorBuilder: _solidEnable ? _solidColor : null,
       obscureStyle: ObscureStyle(
@@ -72,8 +75,22 @@ class _TextPasscodeVerifyPageState extends State<TextPasscodeVerifyPage> {
                 autoFocus: true,
                 controller: _pinEditingController,
                 textInputAction: TextInputAction.go,
-                onSubmit: (pin) {
-                  debugPrint('submit pin:$pin');
+                onSubmit: (pin) async {
+                  // debugPrint('submit pin:$pin');
+                  String? s = await getPscUnlock();
+                  if (s == _pinEditingController.text) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routers.main, (route) => route == null);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "密码错误",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 2,
+                        backgroundColor: Colors.blue,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
                 },
               ),
             )
@@ -171,6 +188,7 @@ class _TextPasscodeCreatePageState extends State<TextPasscodeCreatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final message = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
         // centerTitle: true,
@@ -218,8 +236,40 @@ class _TextPasscodeCreatePageState extends State<TextPasscodeCreatePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(onPressed: () {}, child: Text("重置")),
-                ElevatedButton(onPressed: () {}, child: Text("确定")),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child: Text("取消")),
+                ElevatedButton(
+                    onPressed: () {
+                      _pinEditingControllerUnmarked.text = "";
+                      _pinEditingControllerMarked.text = "";
+                    },
+                    child: Text("重置")),
+                ElevatedButton(
+                    onPressed: () async {
+                      if (_guide2 == "输入正确") {
+                        await setPasscodeUnlock(
+                            _pinEditingControllerUnmarked.text);
+                        if (message == 1) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              Routers.main, (route) => route == null);
+                        } else {
+                          Navigator.pop(context, true);
+                        }
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "输入有错误",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Colors.blue,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                    },
+                    child: Text("确定")),
               ],
             )
           ],

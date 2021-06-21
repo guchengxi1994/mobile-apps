@@ -110,6 +110,7 @@ class GestureCreateState extends State<GestureCreate> {
             this._isLoading = true;
             Future.delayed(Duration.zero, () {
               setGesturePassword(password);
+              setGestureAvailable(true);
             });
             this._isLoading = false;
 

@@ -39,8 +39,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<SettingsState> _fetchToState(SettingsState state) async {
-    final method = await getAppUnlockMethod();
-    return state.copyWith(SettingStatus.init, UserSettings(method));
+    // final method = await getAppUnlockMethod();
+    final UserSettings settings = await getAppUserSettings();
+    return state.copyWith(SettingStatus.init, settings);
   }
 
   Future<SettingsState> _changeToState(

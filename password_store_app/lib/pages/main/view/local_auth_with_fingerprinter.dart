@@ -50,7 +50,7 @@ class LocalAuthSingleton {
             deviceCredentialsSetupDescription: "请设置",
           ));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       authenticated = false;
     }
     return authenticated;

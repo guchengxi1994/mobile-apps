@@ -8,7 +8,7 @@ class SettingsState extends Equatable {
 
   const SettingsState(
       {this.status = SettingStatus.init,
-      this.settings = const UserSettings(1)});
+      this.settings = const UserSettings(1, true, false, false)});
 
   @override
   List<Object> get props => [status, settings];
