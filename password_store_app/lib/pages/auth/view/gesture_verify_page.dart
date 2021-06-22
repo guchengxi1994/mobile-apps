@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:password_store_app/pages/auth/auth_page_utils.dart';
 import 'package:password_store_app/utils/routers.dart';
 import 'package:password_store_app/utils/sharedpreference_util.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:gesture_unlock/lock_pattern.dart';
 
 class GestureVerifyPage extends StatelessWidget {

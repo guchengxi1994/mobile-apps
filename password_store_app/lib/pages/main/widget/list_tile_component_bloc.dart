@@ -79,7 +79,7 @@ class _UserDataWidgetState extends State<UserDataWidget> {
               ElevatedButton(
                   onPressed: () async {
                     var res = await showConfirmDialog(context);
-                    print(res);
+                    print(widget.index);
                     if (res) {
                       _mainBloc.add(DataDelete(
                           index: widget.index, userData: _currentUserData));
@@ -189,25 +189,6 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                     )
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     Checkbox(
-                //         value: _checkboxSelectedSalt,
-                //         onChanged: (value) {
-                //           setState(() {
-                //             _checkboxSelectedSalt = value!;
-                //           });
-                //         }),
-                //     InkWell(
-                //       onTap: () {
-                //         setState(() {
-                //           _checkboxSelectedSalt = !_checkboxSelectedSalt;
-                //         });
-                //       },
-                //       child: Text("是否加盐?"),
-                //     )
-                //   ],
-                // ),
               ],
             ),
             Row(
@@ -306,123 +287,6 @@ class _UserDataWidgetState extends State<UserDataWidget> {
             )
           ],
         );
-        // w = Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //   children: [
-        //     Expanded(
-        //       child: RichText(
-        //           text: TextSpan(
-        //         children: [
-        //           TextSpan(
-        //               text: title + ": ",
-        //               style: TextStyle(
-        //                   color: Colors.black, fontSize: _fontSize * 1.0)),
-        //           TextSpan(
-        //               text: content.toString(),
-        //               style: TextStyle(
-        //                   fontSize: _fontSize * 1.0,
-        //                   fontWeight: FontWeight.bold,
-        //                   color: colorStyle == 1 ? _backColor : _frontColor)),
-        //         ],
-        //       )),
-        //     ),
-        //     Spacer(),
-        //     strValid(_mainBloc.state.userDatas[widget.index].userPasscode)
-        //         ? Column(
-        //             children: [
-        //               Row(
-        //                 children: [
-        //                   Row(
-        //                     children: [
-        //                       Checkbox(
-        //                           value: _checkboxSelectedFuzzy,
-        //                           onChanged: (value) {
-        //                             // print("aaaaaaaa");
-        //                             setState(() {
-        //                               _checkboxSelectedFuzzy = value!;
-        //                             });
-        //                           }),
-        //                       InkWell(
-        //                         onTap: () {
-        //                           setState(() {
-        //                             _checkboxSelectedFuzzy =
-        //                                 !_checkboxSelectedFuzzy;
-        //                           });
-        //                         },
-        //                         child: Text("是否混淆?"),
-        //                       )
-        //                     ],
-        //                   ),
-        //                   Row(
-        //                     children: [
-        //                       Checkbox(
-        //                           value: _checkboxSelectedSalt,
-        //                           onChanged: (value) {
-        //                             setState(() {
-        //                               _checkboxSelectedSalt = value!;
-        //                             });
-        //                           }),
-        //                       InkWell(
-        //                         onTap: () {
-        //                           setState(() {
-        //                             _checkboxSelectedSalt =
-        //                                 !_checkboxSelectedSalt;
-        //                           });
-        //                         },
-        //                         child: Text("是否加盐?"),
-        //                       )
-        //                     ],
-        //                   ),
-        //                 ],
-        //               ),
-        //               Row(
-        //                 children: [
-        //                   TextButton(
-        //                       onPressed: () {
-        //                         // print(_currentUserData.userPasscode);
-        //                         _currentUserData = UserData.fromJson(_mainBloc
-        //                             .state.userDatas[widget.index]
-        //                             .toJson());
-        //                         _currentUserData.userPasscode =
-        //                             UserPasscodeUtil.generateSalt(length: 12);
-        //                         // print(_currentUserData.userPasscode);
-        //                         _mainBloc.add(DataChanged(
-        //                             index: widget.index,
-        //                             userData: _currentUserData));
-        //                       },
-        //                       child: Text("重设")),
-        //                   TextButton(
-        //                       onPressed: () {
-        //                         print("点击了复制");
-        //                         Clipboard.setData(ClipboardData(
-        //                             text: _mainBloc.state
-        //                                 .userDatas[widget.index].userPasscode
-        //                                 .toString()));
-        //                         Fluttertoast.showToast(
-        //                             msg: "复制成功",
-        //                             toastLength: Toast.LENGTH_SHORT,
-        //                             gravity: ToastGravity.CENTER,
-        //                             timeInSecForIosWeb: 2,
-        //                             backgroundColor: Colors.blue,
-        //                             textColor: Colors.white,
-        //                             fontSize: 16.0);
-        //                       },
-        //                       child: Text("复制"))
-        //                 ],
-        //               )
-        //             ],
-        //           )
-        //         : TextButton(
-        //             onPressed: () {
-        //               print("点击了生成");
-        //               _currentUserData.userPasscode =
-        //                   UserPasscodeUtil.generateSalt(length: 12);
-        //               _mainBloc.add(DataChanged(
-        //                   index: widget.index, userData: _currentUserData));
-        //             },
-        //             child: Text("修改code")),
-        //   ],
-        // );
         break;
       case "scheme":
         w = Row(

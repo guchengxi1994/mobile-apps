@@ -42,6 +42,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     if (event is DataDelete) {
       yield await _deleteToState(state, event);
     }
+
+    if (event is DataFilter) {
+      yield await _filterToState(state, event);
+    }
   }
 
   @override
@@ -57,10 +61,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   Future<MainState> _fetchedToState(MainState state) async {
     final datas = await _fetchUserData();
-    // Iterable<UserData> iterable = datas as Iterable<UserData>;
+    // state.userDatas.clear();
     if (null != datas) {
       return state.copyWith(
-          MainStatus.success, List.of(state.userDatas)..addAll(datas));
+          MainStatus.success,
+          List.of(state.userDatas)
+            ..clear()
+            ..addAll(datas));
     } else {
       return state;
     }
@@ -93,6 +100,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     state.userDatas.removeAt(dataDelete.index);
     await deleteData(dataDelete.userData.rid!);
     return state.copyWith(MainStatus.changed, state.userDatas);
+  }
+
+  Future<MainState> _filterToState(MainState state, DataFilter filter) async {
+    var searchedResults = state.userDatas
+        .where((element) => element.appname!.contains(filter.searchStr))
+        .toList();
+    return state.copyWith(MainStatus.changed, searchedResults);
   }
 
   Future<List<UserData>?> _fetchUserData() async {

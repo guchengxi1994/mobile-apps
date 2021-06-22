@@ -25,3 +25,8 @@ class DataDelete extends MainEvent {
   final UserData userData;
   const DataDelete({required this.index, required this.userData});
 }
+
+class DataFilter extends MainEvent {
+  final String searchStr;
+  const DataFilter({required this.searchStr});
+}

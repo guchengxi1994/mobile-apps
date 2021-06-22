@@ -13,7 +13,26 @@ class ExtraComponents extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [Text("这是客制工具")],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              child: Container(
+                width: CommonUtil.screenW() * 1,
+                child: ListTile(
+                  title: Text("Drawing Demo"),
+                  trailing: Icon(Icons.chevron_right, color: Colors.grey[200]),
+                ),
+                decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(color: Colors.grey[200]!),
+                        bottom: BorderSide(color: Colors.grey[200]!))),
+              ),
+              onTap: () async {
+                Navigator.of(context).pushNamed(Routers.drawing);
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -10,7 +10,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_store_app/pages/launch/view/launch_page.dart';
-import 'package:password_store_app/pages/main/main_page_view.dart';
 import 'package:password_store_app/utils/utils.dart';
 
 main(List<String> args) async {
@@ -19,7 +18,6 @@ main(List<String> args) async {
   runApp(new MaterialApp(
     routes: Routers.routers,
     home: LauchPage(),
-    // home: MainPage(),
-    // home: TextPasscodeCreatePage(),
+    // home: Draw(),
   ));
 }

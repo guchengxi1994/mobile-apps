@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_store_app/draw_demo.dart';
 import 'package:password_store_app/pages/auth/auth_page_view.dart';
 import 'package:password_store_app/pages/main/view/create_user_data.dart';
 import 'package:password_store_app/pages/main/view/main_page.dart';
@@ -10,12 +11,14 @@ class Routers {
   static final create = 'create';
   static final textCreate = 'textCreate';
   static final textVerify = 'textVerify';
+  static final drawing = 'drawing';
   static final Map<String, WidgetBuilder> routers = {
     createUserData: (ctx) => CreateUserDataPage(),
     main: (ctx) => MainPage(),
     verify: (ctx) => GestureVerifyPage(),
     create: (ctx) => GestureCreatePage(),
     textCreate: (ctx) => TextPasscodeCreatePage(),
-    textVerify: (ctx) => TextPasscodeVerifyPage()
+    textVerify: (ctx) => TextPasscodeVerifyPage(),
+    drawing: (ctx) => Draw(),
   };
 }

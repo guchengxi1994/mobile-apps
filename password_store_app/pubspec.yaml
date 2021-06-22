@@ -46,6 +46,12 @@ dependencies:
   event_bus: ^2.0.0
   package_info: ^2.0.0
 
+  # 通知
+  # flutter_local_notifications: 5.0.0+4
+  flutter_colorpicker: 0.4.0
+  permission_handler: ^5.0.1+1 #权限
+  image_gallery_saver: ^1.6.9  #保存图片
+  screenshot: ^1.2.1
 
 dev_dependencies:
   flutter_test:
