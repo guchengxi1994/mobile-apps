@@ -75,6 +75,15 @@ class _TextPasscodeVerifyPageState extends State<TextPasscodeVerifyPage> {
                 autoFocus: true,
                 controller: _pinEditingController,
                 textInputAction: TextInputAction.go,
+                onChanged: (pin) async {
+                  if (pin.length == _pinLength) {
+                    String? s = await getPscUnlock();
+                    if (s == _pinEditingController.text) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routers.main, (route) => route == null);
+                    }
+                  }
+                },
                 onSubmit: (pin) async {
                   // debugPrint('submit pin:$pin');
                   String? s = await getPscUnlock();

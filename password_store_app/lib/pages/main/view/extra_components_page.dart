@@ -20,7 +20,7 @@ class ExtraComponents extends StatelessWidget {
               child: Container(
                 width: CommonUtil.screenW() * 1,
                 child: ListTile(
-                  title: Text("Drawing Demo"),
+                  title: Text("Painting Demo"),
                   trailing: Icon(Icons.chevron_right, color: Colors.grey[200]),
                 ),
                 decoration: BoxDecoration(

@@ -39,7 +39,7 @@ class _DrawState extends State<Draw> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "D r a w i n g",
+          "P for Painting (Demo)",
           style: TextStyle(fontFamily: "Pangolin"),
         ),
         backgroundColor: Colors.blue,
