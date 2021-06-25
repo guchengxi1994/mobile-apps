@@ -211,26 +211,43 @@ class _SettingsPageState extends State<SettingsPage> {
                                         BorderSide(color: Colors.grey[200]!))),
                           ),
                           onTap: () async {
-                            Directory appDocDir =
-                                await getApplicationDocumentsDirectory();
-                            String appDocPath = appDocDir.path;
+                            Navigator.of(context)
+                                .push(new MaterialPageRoute(builder: (context) {
+                              return ImportWidget();
+                            }));
+
+                            // showCupertinoDialog(
+                            //     context: context,
+                            //     builder: (context) {
+                            //       return CupertinoAlertDialog(
+                            //         content: ImportDialogWidget(
+                            //           key: globalKey,
+                            //         ),
+                            //       );
+                            //     });
+                            // if (await pathExists()) {
+                            //   globalKey.currentState!.setValue(1.0);
+                            // }
+                            // Directory appDocDir =
+                            //     await getApplicationDocumentsDirectory();
+                            // String appDocPath = appDocDir.path;
 
                             // print(appDocPath);
-                            final _path = appDocPath + "/" + "passcode.txt";
-                            File f = File(_path);
-                            try {
-                              var contents = await f.readAsString();
-                              print(contents);
-                            } catch (e) {
-                              Fluttertoast.showToast(
-                                  msg: "读取异常",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 2,
-                                  backgroundColor: Colors.blue,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                            }
+                            // final _path = appDocPath + "/" + "passcode.txt";
+                            // File f = File(_path);
+                            // try {
+                            //   var contents = await f.readAsString();
+                            //   print(contents);
+                            // } catch (e) {
+                            //   Fluttertoast.showToast(
+                            //       msg: "读取异常",
+                            //       toastLength: Toast.LENGTH_SHORT,
+                            //       gravity: ToastGravity.CENTER,
+                            //       timeInSecForIosWeb: 2,
+                            //       backgroundColor: Colors.blue,
+                            //       textColor: Colors.white,
+                            //       fontSize: 16.0);
+                            // }
                           },
                         ),
                         InkWell(

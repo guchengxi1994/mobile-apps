@@ -201,7 +201,15 @@ class _CreateUserDataPageState extends State<CreateUserDataPage> {
                             child: TextButton(
                               child: Text("随机生成"),
                               onPressed: () {
-                                print("点击了随机");
+                                // print("点击了随机");
+                                List<String> l =
+                                    UserPasscodeUtil.generateRandomPasscode(
+                                            isFuzzy: _adType != "否")
+                                        as List<String>;
+                                passcodeController.text = l[0];
+                                _userData?.userPasscode = l[0];
+                                _userData?.isFuzzy = _adType != "否";
+                                _userData?.salt = l[1];
                               },
                             ),
                           )
