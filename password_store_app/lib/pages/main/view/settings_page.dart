@@ -143,6 +143,24 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: Container(
                             width: CommonUtil.screenW() * 0.9,
                             child: ListTile(
+                              title: Text("扫码导入数据"),
+                              trailing: Icon(Icons.chevron_right,
+                                  color: Colors.grey[200]),
+                            ),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    top: BorderSide(color: Colors.grey[200]!),
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]!))),
+                          ),
+                          onTap: () async {
+                            Navigator.of(context).pushNamed(Routers.qrscan);
+                          },
+                        ),
+                        InkWell(
+                          child: Container(
+                            width: CommonUtil.screenW() * 0.9,
+                            child: ListTile(
                               title: Text("导出数据"),
                               trailing: Icon(Icons.chevron_right,
                                   color: Colors.grey[200]),
@@ -215,39 +233,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                 .push(new MaterialPageRoute(builder: (context) {
                               return ImportWidget();
                             }));
-
-                            // showCupertinoDialog(
-                            //     context: context,
-                            //     builder: (context) {
-                            //       return CupertinoAlertDialog(
-                            //         content: ImportDialogWidget(
-                            //           key: globalKey,
-                            //         ),
-                            //       );
-                            //     });
-                            // if (await pathExists()) {
-                            //   globalKey.currentState!.setValue(1.0);
-                            // }
-                            // Directory appDocDir =
-                            //     await getApplicationDocumentsDirectory();
-                            // String appDocPath = appDocDir.path;
-
-                            // print(appDocPath);
-                            // final _path = appDocPath + "/" + "passcode.txt";
-                            // File f = File(_path);
-                            // try {
-                            //   var contents = await f.readAsString();
-                            //   print(contents);
-                            // } catch (e) {
-                            //   Fluttertoast.showToast(
-                            //       msg: "读取异常",
-                            //       toastLength: Toast.LENGTH_SHORT,
-                            //       gravity: ToastGravity.CENTER,
-                            //       timeInSecForIosWeb: 2,
-                            //       backgroundColor: Colors.blue,
-                            //       textColor: Colors.white,
-                            //       fontSize: 16.0);
-                            // }
                           },
                         ),
                         InkWell(

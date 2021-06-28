@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 /// using bloc to rewrite ./list_tile.dart
 
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:password_store_app/entity/userdata.dart';
@@ -10,6 +13,7 @@ import 'package:password_store_app/pages/main/main_page_widget.dart';
 import 'package:password_store_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 final double _padding = 32;
 final double _cardHeight = 200;
@@ -76,6 +80,40 @@ class _UserDataWidgetState extends State<UserDataWidget> {
               _renderContentWithBloc(
                   "scheme", _mainBloc.state.userDatas[widget.index].scheme,
                   colorStyle: 0),
+              ElevatedButton(
+                  onPressed: () {
+                    print(_mainBloc.state.userDatas[widget.index].toJson());
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoAlertDialog(
+                            title: Text("二维码共享"),
+                            content: Center(
+                              child: Container(
+                                height: 200,
+                                width: 200,
+                                child: QrImage(
+                                  data: json.encode(_mainBloc
+                                      .state.userDatas[widget.index]
+                                      .toJson()),
+                                  version: QrVersions.auto,
+                                  size: 200.0,
+                                ),
+                              ),
+                            ),
+                            actions: [
+                              CupertinoDialogAction(
+                                child: Text('关闭'),
+                                isDestructiveAction: true,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Text("二维码共享")),
               ElevatedButton(
                   onPressed: () async {
                     var res = await showConfirmDialog(context);

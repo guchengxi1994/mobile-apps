@@ -12,6 +12,7 @@ class Routers {
   static final textCreate = 'textCreate';
   static final textVerify = 'textVerify';
   static final drawing = 'drawing';
+  static final qrscan = 'qrscan';
   static final Map<String, WidgetBuilder> routers = {
     createUserData: (ctx) => CreateUserDataPage(),
     main: (ctx) => MainPage(),
@@ -20,5 +21,6 @@ class Routers {
     textCreate: (ctx) => TextPasscodeCreatePage(),
     textVerify: (ctx) => TextPasscodeVerifyPage(),
     drawing: (ctx) => Draw(),
+    qrscan: (ctx) => ScanMainPage(),
   };
 }

@@ -26,12 +26,15 @@ import 'package:password_store_app/pages/main/main_page_widget.dart';
 import 'package:password_store_app/pages/main/widget/import_file.dart';
 import 'package:password_store_app/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:scan/scan.dart';
+import 'package:images_picker/images_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:password_store_app/pages/main/view/local_auth_with_fingerprinter.dart';
 
 part 'package:password_store_app/pages/main/view/main_list_page.dart';
 part 'package:password_store_app/pages/main/view/settings_page.dart';
 part 'package:password_store_app/pages/main/view/extra_components_page.dart';
+part 'package:password_store_app/pages/main/view/scan_page.dart';
 
 class MainListPage extends StatelessWidget {
   @override
