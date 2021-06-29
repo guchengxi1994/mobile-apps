@@ -69,16 +69,51 @@ class _UserDataListState extends State<UserDataList> {
             ),
           ),
           onPressed: () async {
-            // print('FloatingActionButton');
-            UserData result = await Navigator.of(context)
-                .pushNamed(Routers.createUserData) as UserData;
+            // UserData result = await Navigator.of(context)
+            //     .pushNamed(Routers.createUserData) as UserData;
 
-            /// fake result
-            if (result != null) {
-              // result.appname = "cccc";
-              // result.userId = "asdasd";
-              _mainBloc.add(DataAdded(userData: result));
-            }
+            // if (result != null) {
+            //   _mainBloc.add(DataAdded(userData: result));
+            // }
+
+            var result = await showCupertinoDialog(
+                context: context,
+                builder: (context) {
+                  return SimpleDialog(
+                    title: Text(
+                      "添加方式",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    children: [
+                      SimpleDialogOption(
+                        child: Text("直接添加"),
+                        onPressed: () async {
+                          UserData result = await Navigator.of(context)
+                              .pushNamed(Routers.createUserData) as UserData;
+
+                          if (result != null) {
+                            _mainBloc.add(DataAdded(userData: result));
+                          }
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      SimpleDialogOption(
+                        child: Text("二维码添加"),
+                        onPressed: () async {
+                          var results = await Navigator.of(context)
+                              .pushNamed(Routers.qrscan);
+
+                          if (results != null && results != []) {
+                            _mainBloc.add(
+                                DataAddList(datas: results as List<UserData>));
+                          }
+
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                });
           },
           backgroundColor: Colors.yellow,
         ),

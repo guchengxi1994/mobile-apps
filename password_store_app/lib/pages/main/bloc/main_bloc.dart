@@ -13,6 +13,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:password_store_app/entity/userdata.dart';
+import 'package:password_store_app/pages/main/main_page_bloc.dart';
 import 'package:password_store_app/utils/database_util.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:equatable/src/equatable_utils.dart' as qu_utils;
@@ -45,6 +46,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
     if (event is DataFilter) {
       yield await _filterToState(state, event);
+    }
+
+    if (event is DataAddList) {
+      yield await _addList(state, event);
     }
   }
 
@@ -112,5 +117,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<List<UserData>?> _fetchUserData() async {
     var res = await fetchUserData();
     return res;
+  }
+
+  Future<MainState> _addList(MainState state, DataAddList dataAddList) async {
+    for (var i in dataAddList.datas) {
+      await insertToDB(i);
+    }
+    return state.copyWith(MainStatus.success,
+        List.of(state.userDatas)..addAll(dataAddList.datas));
   }
 }

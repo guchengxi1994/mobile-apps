@@ -36,7 +36,7 @@ part 'package:password_store_app/pages/main/view/settings_page.dart';
 part 'package:password_store_app/pages/main/view/extra_components_page.dart';
 part 'package:password_store_app/pages/main/view/scan_page.dart';
 
-MainBloc mainBloc_ = MainBloc();
+// MainBloc mainBloc_ = MainBloc();
 
 class MainListPage extends StatelessWidget {
   @override
@@ -48,7 +48,7 @@ class MainListPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontFamily: "Pangolin")),
       ),
       body: BlocProvider(
-        create: (_) => mainBloc_..add(DataFetched()),
+        create: (_) => MainBloc()..add(DataFetched()),
         child: UserDataList(),
       ),
       // body: UserDataList(),

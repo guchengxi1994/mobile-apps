@@ -30,3 +30,8 @@ class DataFilter extends MainEvent {
   final String searchStr;
   const DataFilter({required this.searchStr});
 }
+
+class DataAddList extends MainEvent {
+  final List<UserData> datas;
+  const DataAddList({required this.datas});
+}

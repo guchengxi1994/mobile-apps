@@ -139,24 +139,24 @@ class _SettingsPageState extends State<SettingsPage> {
                             }
                           },
                         ),
-                        InkWell(
-                          child: Container(
-                            width: CommonUtil.screenW() * 0.9,
-                            child: ListTile(
-                              title: Text("扫码导入数据"),
-                              trailing: Icon(Icons.chevron_right,
-                                  color: Colors.grey[200]),
-                            ),
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    top: BorderSide(color: Colors.grey[200]!),
-                                    bottom:
-                                        BorderSide(color: Colors.grey[200]!))),
-                          ),
-                          onTap: () async {
-                            Navigator.of(context).pushNamed(Routers.qrscan);
-                          },
-                        ),
+                        // InkWell(
+                        //   child: Container(
+                        //     width: CommonUtil.screenW() * 0.9,
+                        //     child: ListTile(
+                        //       title: Text("扫码导入数据"),
+                        //       trailing: Icon(Icons.chevron_right,
+                        //           color: Colors.grey[200]),
+                        //     ),
+                        //     decoration: BoxDecoration(
+                        //         border: Border(
+                        //             top: BorderSide(color: Colors.grey[200]!),
+                        //             bottom:
+                        //                 BorderSide(color: Colors.grey[200]!))),
+                        //   ),
+                        //   onTap: () async {
+                        //     Navigator.of(context).pushNamed(Routers.qrscan);
+                        //   },
+                        // ),
                         InkWell(
                           child: Container(
                             width: CommonUtil.screenW() * 0.9,
