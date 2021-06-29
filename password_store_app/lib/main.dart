@@ -19,8 +19,8 @@ main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(new MaterialApp(
     routes: Routers.routers,
-    // home: LauchPage(),
-    home: MainPage(),
+    home: LauchPage(),
+//     home: MainPage(),
     // home: Draw(),
   ));
 }
