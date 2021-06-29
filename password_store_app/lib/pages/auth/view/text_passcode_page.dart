@@ -81,6 +81,16 @@ class _TextPasscodeVerifyPageState extends State<TextPasscodeVerifyPage> {
                     if (s == _pinEditingController.text) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           Routers.main, (route) => route == null);
+                    } else {
+                      setState(() {
+                        _msg = "密码错误";
+                      });
+                    }
+                  } else {
+                    if (_msg == "密码错误") {
+                      setState(() {
+                        _msg = "请输入密码";
+                      });
                     }
                   }
                 },

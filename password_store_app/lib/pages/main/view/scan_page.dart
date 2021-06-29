@@ -6,9 +6,10 @@ class ScanMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MainBloc()..add(DataFetched()),
+      create: (_) => mainBloc_..add(DataFetched()),
       child: ScanPage(),
     );
+    // return ScanPage();
   }
 }
 
@@ -22,8 +23,8 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   ScanController controller = ScanController();
   String qrcode = 'unknow';
-  String _platformVersion = 'Unknown';
   late MainBloc _mainBloc;
+  bool? _changed;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _ScanPageState extends State<ScanPage> {
       return SafeArea(
           child: Scaffold(
         appBar: AppBar(
+          leading: Container(),
           centerTitle: true,
           title: Text("Scan",
               style: TextStyle(color: Colors.white, fontFamily: "Pangolin")),
@@ -56,11 +58,12 @@ class _ScanPageState extends State<ScanPage> {
                     scanAreaScale: 0.8,
                     scanLineColor: Colors.green.shade400,
                     onCapture: (data) async {
-                      print("===================");
-                      print(data);
-                      print("===================");
+                      // print("===================");
+                      // print(data);
+                      // print("===================");
                       try {
-                        UserData userData = UserData.fromJson(jsonDecode(data));
+                        UserData userData =
+                            UserData.fromJson(json.decode(data));
                         var res = showCupertinoDialog(
                             context: context,
                             builder: (context) {
@@ -92,6 +95,28 @@ class _ScanPageState extends State<ScanPage> {
                                     ],
                                   ),
                                 ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: Text('取消'),
+                                    isDestructiveAction: true,
+                                    onPressed: () {
+                                      _changed = false;
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  CupertinoDialogAction(
+                                    child: Text('确定'),
+                                    isDestructiveAction: true,
+                                    onPressed: () {
+                                      userData.rid = null;
+                                      _mainBloc
+                                          .add(DataAdded(userData: userData));
+
+                                      _changed = true;
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
                               );
                             });
                       } catch (e) {
@@ -115,7 +140,7 @@ class _ScanPageState extends State<ScanPage> {
                   width: CommonUtil.screenW() * 0.9,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(_changed);
                       },
                       child: Text("退出")),
                 ),

@@ -82,7 +82,8 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                   colorStyle: 0),
               ElevatedButton(
                   onPressed: () {
-                    print(_mainBloc.state.userDatas[widget.index].toJson());
+                    // print(json.encode(
+                    //     _mainBloc.state.userDatas[widget.index].toJson()));
                     showCupertinoDialog(
                         context: context,
                         builder: (context) {
@@ -93,9 +94,11 @@ class _UserDataWidgetState extends State<UserDataWidget> {
                                 height: 200,
                                 width: 200,
                                 child: QrImage(
-                                  data: json.encode(_mainBloc
-                                      .state.userDatas[widget.index]
-                                      .toJson()),
+                                  data: json
+                                      .encode(_mainBloc
+                                          .state.userDatas[widget.index]
+                                          .toJson())
+                                      .toString(),
                                   version: QrVersions.auto,
                                   size: 200.0,
                                 ),
@@ -177,7 +180,10 @@ class _UserDataWidgetState extends State<UserDataWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(title + ":" + content.toString()),
+        Text(
+          title + ":" + content.toString(),
+          maxLines: 3,
+        ),
         customTrailing == null
             ? (fixed
                 ? Container()
@@ -373,47 +379,90 @@ class _UserDataWidgetState extends State<UserDataWidget> {
         );
         break;
       default:
-        w = Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        w = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RichText(
-                text: TextSpan(
+            Row(
               children: [
-                TextSpan(
-                    text: title + ": ",
+                Text(title + ": ",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: _fontSize * 1.0,
                     )),
-                TextSpan(
-                    text: content.toString(),
+              ],
+            ),
+            Row(
+              children: [
+                Text(content.toString(),
                     style: TextStyle(
                         fontSize: _fontSize * 1.0,
                         fontWeight: FontWeight.bold,
                         color: colorStyle == 1 ? _backColor : _frontColor)),
+                Spacer(),
+                TextButton(
+                  child: Text("修改"),
+                  onPressed: () async {
+                    // print("点击了修改");
+                    _currentUserData = UserData.fromJson(
+                        _mainBloc.state.userDatas[widget.index].toJson());
+                    var result = await showCustomDialog(context);
+                    if (null != result) {
+                      if (title == "应用名称") {
+                        _currentUserData.appname = result;
+                      } else {
+                        _currentUserData.userId = result;
+                      }
+                      _mainBloc.add(DataChanged(
+                          index: widget.index, userData: _currentUserData));
+                    }
+                  },
+                ),
               ],
-            )),
-            Spacer(),
-            TextButton(
-              child: Text("修改"),
-              onPressed: () async {
-                // print("点击了修改");
-                _currentUserData = UserData.fromJson(
-                    _mainBloc.state.userDatas[widget.index].toJson());
-                var result = await showCustomDialog(context);
-                if (null != result) {
-                  if (title == "应用名称") {
-                    _currentUserData.appname = result;
-                  } else {
-                    _currentUserData.userId = result;
-                  }
-                  _mainBloc.add(DataChanged(
-                      index: widget.index, userData: _currentUserData));
-                }
-              },
             ),
           ],
         );
+
+        // w = Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //   children: [
+        //     RichText(
+        //         text: TextSpan(
+        //       children: [
+        //         TextSpan(
+        //             text: title + ": ",
+        //             style: TextStyle(
+        //               color: Colors.black,
+        //               fontSize: _fontSize * 1.0,
+        //             )),
+        //         TextSpan(
+        //             text: content.toString(),
+        //             style: TextStyle(
+        //                 fontSize: _fontSize * 1.0,
+        //                 fontWeight: FontWeight.bold,
+        //                 color: colorStyle == 1 ? _backColor : _frontColor)),
+        //       ],
+        //     )),
+        //     Spacer(),
+        //     TextButton(
+        //       child: Text("修改"),
+        //       onPressed: () async {
+        //         // print("点击了修改");
+        //         _currentUserData = UserData.fromJson(
+        //             _mainBloc.state.userDatas[widget.index].toJson());
+        //         var result = await showCustomDialog(context);
+        //         if (null != result) {
+        //           if (title == "应用名称") {
+        //             _currentUserData.appname = result;
+        //           } else {
+        //             _currentUserData.userId = result;
+        //           }
+        //           _mainBloc.add(DataChanged(
+        //               index: widget.index, userData: _currentUserData));
+        //         }
+        //       },
+        //     ),
+        //   ],
+        // );
         break;
     }
     return w;
