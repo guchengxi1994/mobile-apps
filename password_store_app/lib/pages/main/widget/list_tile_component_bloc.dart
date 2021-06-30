@@ -61,6 +61,7 @@ class _UserDataWidgetState extends State<UserDataWidget> {
       child: FlipCard(
         direction: FlipDirection.HORIZONTAL,
         back: Container(
+          // width: 0.85 * CommonUtil.screenW(),
           padding: EdgeInsets.all(_padding),
           constraints: BoxConstraints(minHeight: _cardHeight),
           decoration: BoxDecoration(
@@ -131,6 +132,7 @@ class _UserDataWidgetState extends State<UserDataWidget> {
           ),
         ),
         front: Container(
+          // width: 0.85 * CommonUtil.screenW(),
           padding: EdgeInsets.all(_padding),
           constraints: BoxConstraints(minHeight: _cardHeight),
           decoration: BoxDecoration(
@@ -384,11 +386,12 @@ class _UserDataWidgetState extends State<UserDataWidget> {
           children: [
             Row(
               children: [
-                Text(title + ": ",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: _fontSize * 1.0,
-                    )),
+                Expanded(
+                    child: Text(title + ": ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: _fontSize * 1.0,
+                        ))),
               ],
             ),
             Row(

@@ -20,7 +20,6 @@ main(List<String> args) async {
   runApp(new MaterialApp(
     routes: Routers.routers,
     home: LauchPage(),
-//     home: MainPage(),
-    // home: Draw(),
+    // home: SwiperTest(),
   ));
 }

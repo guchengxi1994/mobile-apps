@@ -11,6 +11,8 @@
 part of 'package:password_store_app/pages/main/view/main_page.dart';
 
 class UserDataList extends StatefulWidget {
+  int type;
+  UserDataList({required this.type});
   @override
   _UserDataListState createState() => _UserDataListState();
 }
@@ -19,17 +21,23 @@ class _UserDataListState extends State<UserDataList> {
   final _scrollController = ScrollController();
   late MainBloc _mainBloc;
   final TextEditingController _searchController = TextEditingController();
+  int currentIndex = 0;
+  ScrollController scrollController = ScrollController();
+
+  late int itemCount;
 
   @override
   void initState() {
     super.initState();
     _mainBloc = context.read<MainBloc>();
+    itemCount = _mainBloc.state.userDatas.length;
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     _searchController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -42,18 +50,78 @@ class _UserDataListState extends State<UserDataList> {
           backgroundColor: Colors.white,
           title: buildSearchBar(),
         ),
-        body: ListView.builder(
-            controller: _scrollController,
-            itemCount: state.userDatas.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (index < state.userDatas.length) {
-                return UserDataWidget(index);
-              } else {
-                return Container(
-                  child: Text("无更多"),
-                );
-              }
-            }),
+        body: widget.type == 0
+            ? ListView.builder(
+                controller: _scrollController,
+                itemCount: state.userDatas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index < state.userDatas.length) {
+                    return UserDataWidget(index);
+                  } else {
+                    return Container(
+                      child: Text("无更多"),
+                    );
+                  }
+                })
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 500,
+                      width: CommonUtil.screenW(),
+                      child: Swiper(
+                        key: UniqueKey(),
+                        itemCount: state.userDatas.length,
+                        viewportFraction: 0.7,
+                        scale: 0.9,
+                        index: currentIndex,
+                        itemBuilder: (context, index) {
+                          return UserDataWidget(index);
+                        },
+                        onIndexChanged: (index) {
+                          // setState(() {
+                          //   currentIndex = index;
+                          // });
+                          currentIndex = index;
+                          scrollController.animateTo(currentIndex * 50,
+                              duration: Duration(milliseconds: 100),
+                              curve: Curves.easeOut);
+                        },
+                      ),
+                    ),
+                    Container(
+                      // margin: EdgeInsets.only(top: 100),
+                      alignment: Alignment.center,
+                      height: 50,
+                      width: CommonUtil.screenW(),
+                      child: ListView.builder(
+                          controller: scrollController,
+                          key: UniqueKey(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.userDatas.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  currentIndex = index;
+                                });
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                color: Colors.grey,
+                                child: new Center(
+                                  child: new Text("$index"),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ),
         floatingActionButton: FloatingActionButton.extended(
           icon: Icon(
             Icons.add,
@@ -69,13 +137,6 @@ class _UserDataListState extends State<UserDataList> {
             ),
           ),
           onPressed: () async {
-            // UserData result = await Navigator.of(context)
-            //     .pushNamed(Routers.createUserData) as UserData;
-
-            // if (result != null) {
-            //   _mainBloc.add(DataAdded(userData: result));
-            // }
-
             var result = await showCupertinoDialog(
                 context: context,
                 builder: (context) {
