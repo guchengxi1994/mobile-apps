@@ -335,47 +335,62 @@ class _UserDataWidgetState extends State<UserDataWidget> {
         );
         break;
       case "scheme":
-        w = Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        w = Column(
           children: [
-            RichText(
-                text: TextSpan(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TextSpan(
-                    text: title + ": ",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: _fontSize * 1.0,
-                    )),
-                TextSpan(
-                    text: content.toString(),
-                    style: TextStyle(
-                        fontSize: _fontSize * 1.0,
-                        decoration: TextDecoration.underline,
-                        decorationStyle: TextDecorationStyle.dashed,
-                        fontWeight: FontWeight.bold,
-                        color: colorStyle == 1 ? _backColor : _frontColor)),
+                RichText(
+                    text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: title + ": ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: _fontSize * 1.0,
+                        )),
+                    TextSpan(
+                        text: content.toString(),
+                        style: TextStyle(
+                            fontSize: _fontSize * 1.0,
+                            decoration: TextDecoration.underline,
+                            decorationStyle: TextDecorationStyle.dashed,
+                            fontWeight: FontWeight.bold,
+                            color: colorStyle == 1 ? _backColor : _frontColor)),
+                  ],
+                )),
               ],
-            )),
-            Spacer(),
-            TextButton(
-                onPressed: () async {
-                  var _result = await showCustomDialog(context);
-                  if (_result != "" && _result != null) {
-                    _currentUserData = UserData.fromJson(
-                        _mainBloc.state.userDatas[widget.index].toJson());
-                    _currentUserData.scheme = _result.toString();
-                    _mainBloc.add(DataChanged(
-                        index: widget.index, userData: _currentUserData));
-                  }
-                },
-                child: Text("修改")),
-            TextButton(
-              child: Text("跳转"),
-              onPressed: () async {
-                print("点击了跳转");
-                // var result = showCustomDialog(context);
-              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                    onPressed: () async {
+                      var _result = await showCustomDialog(context);
+                      if (_result != "" && _result != null) {
+                        _currentUserData = UserData.fromJson(
+                            _mainBloc.state.userDatas[widget.index].toJson());
+                        _currentUserData.scheme = _result.toString();
+                        _mainBloc.add(DataChanged(
+                            index: widget.index, userData: _currentUserData));
+                      }
+                    },
+                    child: Text(
+                      "修改",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )),
+                TextButton(
+                  child: Text(
+                    "跳转",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () async {
+                    print("点击了跳转");
+                    // var result = showCustomDialog(context);
+                  },
+                ),
+              ],
             ),
           ],
         );
@@ -396,11 +411,14 @@ class _UserDataWidgetState extends State<UserDataWidget> {
             ),
             Row(
               children: [
-                Text(content.toString(),
-                    style: TextStyle(
-                        fontSize: _fontSize * 1.0,
-                        fontWeight: FontWeight.bold,
-                        color: colorStyle == 1 ? _backColor : _frontColor)),
+                Container(
+                  width: 0.3 * CommonUtil.screenW(),
+                  child: Text(content.toString(),
+                      style: TextStyle(
+                          fontSize: _fontSize * 1.0,
+                          fontWeight: FontWeight.bold,
+                          color: colorStyle == 1 ? _backColor : _frontColor)),
+                ),
                 Spacer(),
                 TextButton(
                   child: Text("修改"),
@@ -424,48 +442,6 @@ class _UserDataWidgetState extends State<UserDataWidget> {
             ),
           ],
         );
-
-        // w = Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //   children: [
-        //     RichText(
-        //         text: TextSpan(
-        //       children: [
-        //         TextSpan(
-        //             text: title + ": ",
-        //             style: TextStyle(
-        //               color: Colors.black,
-        //               fontSize: _fontSize * 1.0,
-        //             )),
-        //         TextSpan(
-        //             text: content.toString(),
-        //             style: TextStyle(
-        //                 fontSize: _fontSize * 1.0,
-        //                 fontWeight: FontWeight.bold,
-        //                 color: colorStyle == 1 ? _backColor : _frontColor)),
-        //       ],
-        //     )),
-        //     Spacer(),
-        //     TextButton(
-        //       child: Text("修改"),
-        //       onPressed: () async {
-        //         // print("点击了修改");
-        //         _currentUserData = UserData.fromJson(
-        //             _mainBloc.state.userDatas[widget.index].toJson());
-        //         var result = await showCustomDialog(context);
-        //         if (null != result) {
-        //           if (title == "应用名称") {
-        //             _currentUserData.appname = result;
-        //           } else {
-        //             _currentUserData.userId = result;
-        //           }
-        //           _mainBloc.add(DataChanged(
-        //               index: widget.index, userData: _currentUserData));
-        //         }
-        //       },
-        //     ),
-        //   ],
-        // );
         break;
     }
     return w;

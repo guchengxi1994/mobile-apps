@@ -39,7 +39,27 @@ part 'package:password_store_app/pages/main/view/scan_page.dart';
 
 // MainBloc mainBloc_ = MainBloc();
 
-class MainListPage extends StatelessWidget {
+class MainListPage extends StatefulWidget {
+  MainListPage({Key? key}) : super(key: key);
+
+  @override
+  _MainListPageState createState() => _MainListPageState();
+}
+
+class _MainListPageState extends State<MainListPage> {
+  var _futureGetType;
+  int _type = 0;
+  Future<int> getType() async {
+    await Future.delayed(Duration(seconds: 1));
+    return 1;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _futureGetType = getType();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +67,7 @@ class MainListPage extends StatelessWidget {
         actions: [
           Container(
             child: InkWell(
+              onTap: () {},
               child: Icon(Icons.style_sharp),
             ),
           ),
@@ -60,8 +81,21 @@ class MainListPage extends StatelessWidget {
         create: (BuildContext context) {
           return MainBloc()..add(DataFetched());
         },
-        child: UserDataList(
-          type: 1,
+        // child: UserDataList(
+        //   type: 1,
+        // ),
+        child: FutureBuilder(
+          future: _futureGetType,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              _type = snapshot.data as int;
+              return UserDataList(type: _type);
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ),
       ),
       // body: UserDataList(),

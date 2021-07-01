@@ -101,6 +101,16 @@ class _UserDataListState extends State<UserDataList> {
                           scrollDirection: Axis.horizontal,
                           itemCount: state.userDatas.length,
                           itemBuilder: (BuildContext context, int index) {
+                            late String _mark;
+                            if (null ==
+                                    _mainBloc.state.userDatas[index].appname ||
+                                "" ==
+                                    _mainBloc.state.userDatas[index].appname) {
+                              _mark = "?";
+                            } else {
+                              _mark =
+                                  _mainBloc.state.userDatas[index].appname![0];
+                            }
                             return InkWell(
                               onTap: () {
                                 setState(() {
@@ -110,10 +120,16 @@ class _UserDataListState extends State<UserDataList> {
                               child: Container(
                                 height: 50,
                                 width: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.all(
+                                    /// 里面的数值尽可能大才是左右半圆形，否则就是普通的圆角形
+                                    Radius.circular(50),
+                                  ),
+                                ),
                                 margin: EdgeInsets.only(left: 20, right: 20),
-                                color: Colors.grey,
                                 child: new Center(
-                                  child: new Text("$index"),
+                                  child: new Text(_mark),
                                 ),
                               ),
                             );
