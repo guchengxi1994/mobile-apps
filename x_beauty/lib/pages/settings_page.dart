@@ -148,7 +148,27 @@ class _SettingsPageState extends State<SettingsPage> {
                           top: BorderSide(color: Colors.grey[200]!),
                           bottom: BorderSide(color: Colors.grey[200]!))),
                 ),
-                onTap: () async {},
+                onTap: () async {
+                  showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text("用户须知"),
+                          content: Container(
+                            width: 200,
+                            child: Text(
+                                "  此APP为本人依据神经网络(开源)所做的个人项目。\n  所有数据训练集也为神经网络生成，无任何侵犯他人隐私或者肖像权行为存在。"),
+                          ),
+                          actions: [
+                            CupertinoButton(
+                                child: Text("确定"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                })
+                          ],
+                        );
+                      });
+                },
               ),
             ])));
   }

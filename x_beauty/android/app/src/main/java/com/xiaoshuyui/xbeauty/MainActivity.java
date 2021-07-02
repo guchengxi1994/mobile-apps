@@ -1,6 +1,7 @@
-package com.xiaoshuyui.x_beauty;
+package com.xiaoshuyui.xbeauty;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import io.flutter.embedding.android.FlutterActivity;
@@ -12,7 +13,7 @@ import org.pytorch.PyTorchAndroid;
 import org.pytorch.Tensor;
 import org.pytorch.torchvision.TensorImageUtils;
 
-import com.xiaoshuyui.x_beauty.utils.ImageUtil;
+import com.xiaoshuyui.xbeauty.utils.ImageUtil;
 
 public class MainActivity extends FlutterActivity {
     private static final String channel = "face.convert";
@@ -30,9 +31,8 @@ public class MainActivity extends FlutterActivity {
 
         new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), channel).setMethodCallHandler(
                 (call, result) -> {
-                    System.out.println("====================");
-                    System.out.println(call.arguments);
-                    System.out.println("====================");
+                    _bitmap = null;
+                    module = null;
                     if (call.method != null) {
                         result.success(convert((String) call.arguments));
                     } else {
@@ -44,10 +44,11 @@ public class MainActivity extends FlutterActivity {
 
 
     private String convert(String imgpath) {
+        _bitmap = null;
         String filepath = this.getFilePath(imgpath);
-
         module = PyTorchAndroid.loadModuleFromAsset(getAssets(), "test.pt");
         System.out.println("start converting");
+        System.out.println(imgpath);
         _bitmap = ImageUtil.zoomBitmap(256, 256, imgpath);
         System.out.println("start converting");
         Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(_bitmap, TensorImageUtils.TORCHVISION_NORM_MEAN_RGB, TensorImageUtils.TORCHVISION_NORM_STD_RGB);
@@ -58,8 +59,10 @@ public class MainActivity extends FlutterActivity {
         Bitmap resultBitmap = ImageUtil.bitmapFromRGBImageAsFloatArray(imgArray, 256, 256);
         resultBitmap = ImageUtil.adjustPhotoRotation(resultBitmap, 90);
 
-        ImageUtil.saveBitmap(resultBitmap, filepath + "/demo.png");
-        return filepath + "/demo.png";
+        long timecurrentTimeMillis = System.currentTimeMillis();
+
+        ImageUtil.saveBitmap(resultBitmap, filepath +  String.format("/%s.png",timecurrentTimeMillis) );
+        return filepath + String.format("/%s.png",timecurrentTimeMillis);
     }
 
     private static String getFilePath(String filename) {
@@ -71,5 +74,4 @@ public class MainActivity extends FlutterActivity {
         System.out.println("filepath:" + filepath);
         return tmp[0] + filepath;
     }
-
 }

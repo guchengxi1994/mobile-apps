@@ -1,4 +1,4 @@
-package com.xiaoshuyui.x_beauty.utils;
+package com.xiaoshuyui.xbeauty.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +21,10 @@ public class ImageUtil {
         Matrix matrix = new Matrix();
         matrix.setScale(scaleWidth, scaleHeight);
         Bitmap scaleBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        bitmap.recycle();
+//        bitmap.recycle();
+        if(scaleBitmap!=bitmap){
+            bitmap.recycle();
+        }
         return scaleBitmap;
     }
 
