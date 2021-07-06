@@ -139,6 +139,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Container(
                   width: CommonUtil.screenW() * 0.9,
                   child: ListTile(
+                    title: Text("隐私政策"),
+                    trailing:
+                        Icon(Icons.chevron_right, color: Colors.grey[200]),
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(color: Colors.grey[200]!),
+                          bottom: BorderSide(color: Colors.grey[200]!))),
+                ),
+                onTap: () async {
+                  Navigator.of(context)
+                      .push(new MaterialPageRoute(builder: (context) {
+                    return PolicyPage(
+                      withTitle: true,
+                    );
+                  }));
+                },
+              ),
+              InkWell(
+                child: Container(
+                  width: CommonUtil.screenW() * 0.9,
+                  child: ListTile(
                     title: Text("说明"),
                     trailing:
                         Icon(Icons.chevron_right, color: Colors.grey[200]),

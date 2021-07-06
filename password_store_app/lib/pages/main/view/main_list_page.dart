@@ -73,8 +73,10 @@ class _UserDataListState extends State<UserDataList> {
                       child: Swiper(
                         key: UniqueKey(),
                         itemCount: state.userDatas.length,
-                        viewportFraction: 0.7,
+                        viewportFraction: 0.95,
                         scale: 0.9,
+                        // itemWidth: 0.9 * CommonUtil.screenW(),
+                        // layout: SwiperLayout.STACK,
                         index: currentIndex,
                         itemBuilder: (context, index) {
                           return UserDataWidget(index);

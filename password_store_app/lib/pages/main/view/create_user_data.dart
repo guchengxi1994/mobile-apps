@@ -48,16 +48,16 @@ class _CreateUserDataPageState extends State<CreateUserDataPage> {
     return SafeArea(
       child: Material(
           child: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage("assets/images/background.jpg"))),
-        child: Opacity(
-          opacity: 0.8,
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         fit: BoxFit.fill,
+        //         image: AssetImage("assets/images/background.jpg"))),
+        child: Container(
+          // opacity: 0.8,
           child: Container(
             // height: 500,
             decoration: BoxDecoration(
-              color: Colors.grey[900],
+              // color: Colors.grey[900],
               borderRadius: BorderRadius.circular(15),
               border: new Border.all(width: 1, color: Colors.grey[900]!),
             ),

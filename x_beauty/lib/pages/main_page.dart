@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:image_picker/image_picker.dart';
@@ -14,9 +16,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:x_beauty/utils/common.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:x_beauty/pages/policy_page.dart';
 part './convert_page.dart';
 part './settings_page.dart';
+part './launch_page.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);

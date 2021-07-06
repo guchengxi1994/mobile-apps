@@ -9,6 +9,7 @@ class ConvertionState extends State {
   var _imgPath;
   String? filename;
   bool _isConverting = false;
+  final ImagePicker _picker = ImagePicker();
   String? _changedImage;
   final platform = MethodChannel("face.convert");
   @override
@@ -44,17 +45,19 @@ class ConvertionState extends State {
                       onPressed: () async {
                         // print("babalaka");
                         if (await Permission.storage.request().isGranted) {
-                          var image = await ImagePicker.pickImage(
+                          var image = await _picker.getImage(
                               source: ImageSource.gallery);
 
-                          setState(() {
-                            _imgPath = image;
-                            print(image.path);
-                            filename = image.path;
-                          });
-                          print("==========================");
-                          print(filename);
-                          print("==========================");
+                          if (null != image) {
+                            setState(() {
+                              print(image.path);
+                              _imgPath = File(image.path);
+                              filename = image.path;
+                            });
+                            // print("==========================");
+                            // print(filename);
+                            // print("==========================");
+                          }
                         } else {
                           Fluttertoast.showToast(
                               msg: "需要同意权限才能使用功能",
@@ -201,6 +204,7 @@ class ConvertionState extends State {
           imgpath,
           width: 300,
           height: 300,
+          fit: BoxFit.fill,
         ),
       );
     }

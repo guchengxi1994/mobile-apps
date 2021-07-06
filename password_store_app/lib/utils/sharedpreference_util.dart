@@ -103,3 +103,17 @@ Future<String?> getPscUnlock() async {
   String? method = prefs.getString("pscunlock");
   return method;
 }
+
+Future<int> getShowType() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? type = prefs.getInt("type");
+  if (null == type) {
+    type = 1;
+  }
+  return type;
+}
+
+Future<void> setShowType(int type) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setInt("type", type);
+}

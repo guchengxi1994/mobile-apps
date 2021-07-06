@@ -50,8 +50,9 @@ class _MainListPageState extends State<MainListPage> {
   var _futureGetType;
   int _type = 0;
   Future<int> getType() async {
-    await Future.delayed(Duration(seconds: 1));
-    return 1;
+    // await Future.delayed(Duration(seconds: 1));
+    var type = getShowType();
+    return type;
   }
 
   @override
@@ -60,17 +61,40 @@ class _MainListPageState extends State<MainListPage> {
     _futureGetType = getType();
   }
 
+  Widget _showNormalPopMenu() {
+    return new PopupMenuButton(onSelected: (int value) {
+      setShowType(value);
+      setState(() {
+        _type = value;
+      });
+      Fluttertoast.showToast(
+          msg: "重启App后生效",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }, itemBuilder: (context) {
+      return [
+        PopupMenuItem(
+          child: Text("列表形式"),
+          value: 0,
+        ),
+        PopupMenuItem(
+          child: Text("轮播形式"),
+          value: 1,
+        ),
+      ];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Container(
-            child: InkWell(
-              onTap: () {},
-              child: Icon(Icons.style_sharp),
-            ),
-          ),
+          _showNormalPopMenu(),
         ],
         centerTitle: true,
         title: Text("P for Password",
