@@ -1,17 +1,18 @@
 import 'dart:convert';
 
 import 'package:after_layout/after_layout.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:before_after/before_after.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info/package_info.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:permission_handler/permission_handler.dart';
 import 'package:x_beauty/utils/common.dart';
 import 'package:url_launcher/url_launcher.dart';

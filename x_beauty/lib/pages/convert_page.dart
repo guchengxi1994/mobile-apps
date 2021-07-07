@@ -8,7 +8,7 @@ class ConvertionPage extends StatefulWidget {
 class ConvertionState extends State {
   var _imgPath;
   String? filename;
-  bool _isConverting = false;
+  bool _isConverted = false;
   final ImagePicker _picker = ImagePicker();
   String? _changedImage;
   final platform = MethodChannel("face.convert");
@@ -48,15 +48,16 @@ class ConvertionState extends State {
                           var image = await _picker.getImage(
                               source: ImageSource.gallery);
 
+                          setState(() {
+                            _isConverted = false;
+                          });
+
                           if (null != image) {
                             setState(() {
                               print(image.path);
                               _imgPath = File(image.path);
                               filename = image.path;
                             });
-                            // print("==========================");
-                            // print(filename);
-                            // print("==========================");
                           }
                         } else {
                           Fluttertoast.showToast(
@@ -83,7 +84,7 @@ class ConvertionState extends State {
                       onPressed: () async {
                         print("kakabala");
                         setState(() {
-                          _isConverting = true;
+                          _isConverted = false;
                         });
 
                         getResult().then((value) {
@@ -91,9 +92,6 @@ class ConvertionState extends State {
                           if (value.runtimeType == String) {
                             _changedImage = value;
                           }
-                          setState(() {
-                            _isConverting = false;
-                          });
                         });
                       },
                       child: Text("转换"),
@@ -162,7 +160,8 @@ class ConvertionState extends State {
       dynamic resultValue = await platform.invokeMethod("convert", filename);
       // print(resultValue.runtimeType);
       setState(() {
-        _imgPath = File(resultValue);
+        // _imgPath = File(resultValue);
+        _isConverted = true;
       });
       if (resultValue.runtimeType == String) {
         return resultValue;
@@ -197,16 +196,97 @@ class ConvertionState extends State {
         ),
       );
     } else {
-      return Container(
-        height: 300,
-        width: 300,
-        child: Image.file(
-          imgpath,
-          width: 300,
-          height: 300,
-          fit: BoxFit.fill,
-        ),
-      );
+      if (!_isConverted) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onLongPress: () async {
+                print("long press");
+                if (null != imgpath) {
+                  File result = await _cropImage(imgpath) as File;
+                  // print(result);
+                  // print(result.path);
+                  if (result != null) {
+                    setState(() {
+                      _imgPath = result;
+                      filename = result.path;
+                    });
+                  }
+                }
+              },
+              child: Container(
+                height: 300,
+                width: 300,
+                child: Image.file(
+                  imgpath,
+                  width: 300,
+                  height: 300,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            _isConverted == false && imgpath != null
+                ? Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text("长按图像以裁剪图像"),
+                  )
+                : Container(),
+          ],
+        );
+      } else {
+        return Container(
+          child: BeforeAfter(
+            beforeImage: Image.file(
+              imgpath,
+              width: 300,
+              height: 300,
+              fit: BoxFit.fill,
+            ),
+            afterImage: Image.file(
+              File(_changedImage!),
+              width: 300,
+              height: 300,
+              fit: BoxFit.fill,
+            ),
+            isVertical: false,
+          ),
+        );
+      }
     }
+  }
+
+  Future<File?> _cropImage(File? imgfile) async {
+    File? croppedFile = await ImageCropper.cropImage(
+        sourcePath: imgfile!.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: '图像裁剪工具',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: '图像裁剪工具',
+        ));
+
+    return croppedFile;
   }
 }
