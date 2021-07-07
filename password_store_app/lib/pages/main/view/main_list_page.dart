@@ -123,7 +123,9 @@ class _UserDataListState extends State<UserDataList> {
                                 height: 50,
                                 width: 50,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey,
+                                  color: currentIndex == index
+                                      ? Colors.blue
+                                      : Colors.grey,
                                   borderRadius: BorderRadius.all(
                                     /// 里面的数值尽可能大才是左右半圆形，否则就是普通的圆角形
                                     Radius.circular(50),
