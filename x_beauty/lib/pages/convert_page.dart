@@ -113,6 +113,8 @@ class ConvertionState extends State {
                           String bs64 = base64Encode(imageBytes);
                           var bytes = Base64Decoder().convert(bs64);
                           var result = await ImageGallerySaver.saveImage(bytes);
+                          print(result);
+                          print(result.runtimeType);
                           if (result == null || result['filePath'] == null) {
                             Fluttertoast.showToast(
                                 msg: "保存失败",

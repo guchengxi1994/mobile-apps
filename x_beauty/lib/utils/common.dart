@@ -17,7 +17,7 @@ class CommonUtil {
   }
 
   static String appIcon = 'assets/images/icon.png';
-  static String appName = "x-beauty";
+  static String appName = "AI人像转换工具";
 
   static TextStyle jobNameStyle =
       TextStyle(fontSize: 17, fontWeight: FontWeight.bold);

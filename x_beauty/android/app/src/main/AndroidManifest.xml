@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
    <application
-        android:label="美美哒"
+        android:label="AI人像转换工具"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/icon">
         <activity
             android:name=".MainActivity"
