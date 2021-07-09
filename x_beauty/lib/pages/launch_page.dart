@@ -1,6 +1,6 @@
 part of './main_page.dart';
 
-const fontSize = 20.0;
+const fontSize = 14.0;
 
 class LaunchPage extends StatefulWidget {
   LaunchPage({Key? key}) : super(key: key);
@@ -168,7 +168,7 @@ class _LaunchPageState extends State<LaunchPage>
             )),
             Container(
               child: Text(
-                "我已阅读并同意美美哒",
+                "我已阅读并同意" + CommonUtil.appName,
                 style: TextStyle(fontSize: fontSize),
               ),
             ),
