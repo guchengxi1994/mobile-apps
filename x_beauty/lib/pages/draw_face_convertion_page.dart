@@ -1,16 +1,18 @@
 part of './main_page.dart';
 
-class ConvertionPage extends StatefulWidget {
+class DrawfacePage extends StatefulWidget {
   @override
-  ConvertionState createState() => ConvertionState();
+  DrawfaceState createState() => DrawfaceState();
 }
 
-class ConvertionState extends State {
+class DrawfaceState extends State {
   var _imgPath;
   String? filename;
   bool _isConverted = false;
   final ImagePicker _picker = ImagePicker();
   String? _changedImage;
+
+  // String stateStr = "";
   final platform = MethodChannel("face.convert");
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,9 @@ class ConvertionState extends State {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            // Container(
+            //   child: Text(stateStr),
+            // ),
             Container(
               margin: EdgeInsets.only(top: 50, bottom: 50),
               child: _ImageView(_imgPath),
@@ -50,6 +55,7 @@ class ConvertionState extends State {
 
                           setState(() {
                             _isConverted = false;
+                            // stateStr = "";
                           });
 
                           if (null != image) {
@@ -85,9 +91,10 @@ class ConvertionState extends State {
                         print("kakabala");
                         setState(() {
                           _isConverted = false;
+                          // stateStr = "";
                         });
 
-                        getResult().then((value) {
+                        getResult(type: 1).then((value) {
                           print(value.runtimeType);
                           if (value.runtimeType == String) {
                             _changedImage = value;
@@ -157,8 +164,9 @@ class ConvertionState extends State {
     );
   }
 
-  Future<String?> getResult() async {
-    Map<String, Object> map = {"filename": filename!, "type": 0};
+  Future<String?> getResult({required int type}) async {
+    Map<String, Object> map = {"filename": filename!, "type": type};
+
     if (filename != null) {
       dynamic resultValue = await platform.invokeMethod("convert", map);
       // print(resultValue.runtimeType);
@@ -195,7 +203,7 @@ class ConvertionState extends State {
         height: 300,
         width: 300,
         child: Center(
-          child: Text("请选择一张图片\n最好是正面肖像"),
+          child: Text("请选择一张简笔画\n最好是正常一点的简笔画"),
         ),
       );
     } else {

@@ -21,6 +21,7 @@ import 'package:x_beauty/pages/policy_page.dart';
 part './convert_page.dart';
 part './settings_page.dart';
 part './launch_page.dart';
+part './draw_face_convertion_page.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
