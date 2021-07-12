@@ -1,7 +1,17 @@
+import 'dart:io';
+
 import 'package:password_store_app/entity/userdata.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+Future<bool> pathExists() async {
+  var databasePath = await getDatabasesPath();
+  String path = join(databasePath, "userdata.db");
+  File f = File(path);
+  bool exist = await f.exists();
+  return exist;
+}
 
 testSqlite() async {
   UserDataProvider userProvider = UserDataProvider();

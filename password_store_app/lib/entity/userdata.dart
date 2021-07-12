@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:password_store_app/utils/common.dart';
 import 'package:sqflite/sqflite.dart';
