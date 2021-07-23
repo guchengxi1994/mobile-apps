@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:before_after/before_after.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -22,6 +22,7 @@ part './convert_page.dart';
 part './settings_page.dart';
 part './launch_page.dart';
 part './draw_face_convertion_page.dart';
+part './face_compose_page.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
 
-  static List<Widget> pages = [ConvertionPage(), SettingsPage()];
+  static List<Widget> pages = [MainNavigatorPage(), SettingsPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,50 @@ class _MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "设置"),
+        ],
+      ),
+    );
+  }
+}
+
+class MainNavigatorPage extends StatefulWidget {
+  MainNavigatorPage({Key? key}) : super(key: key);
+
+  @override
+  _MainNavigatorPageState createState() => _MainNavigatorPageState();
+}
+
+class _MainNavigatorPageState extends State<MainNavigatorPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          CommonUtil.appName,
+          style: TextStyle(fontFamily: "MaShanZheng"),
+        ),
+      ),
+      body: Column(
+        children: [
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return ConvertionPage();
+              }));
+            },
+            title: Text(CommonUtil.pageName1),
+            trailing: Icon(Icons.chevron_right),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return DrawfacePage();
+              }));
+            },
+            title: Text(CommonUtil.pageName2),
+            trailing: Icon(Icons.chevron_right),
+          ),
         ],
       ),
     );

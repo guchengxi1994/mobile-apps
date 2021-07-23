@@ -2,10 +2,18 @@ package com.xiaoshuyui.xbeauty;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 
+
+import androidx.annotation.NonNull;
+
 import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.plugin.common.BasicMessageChannel;
+import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.StandardMessageCodec;
 
 import org.pytorch.IValue;
 import org.pytorch.Module;
@@ -20,6 +28,22 @@ public class MainActivity extends FlutterActivity {
     private Module module;
     private Bitmap _bitmap = null;
 
+    private String _result = "这是测试数据";
+
+    private BasicMessageChannel basicMessageChannel;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case 1:
+                    basicMessageChannel.send(msg.obj);
+                    break;
+            }
+        }
+    };
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +57,63 @@ public class MainActivity extends FlutterActivity {
                 (call, result) -> {
                     System.out.println(call.arguments);
                     if (call.method != null) {
-                        result.success(convert((String) call.argument("filename"), call.argument("type")));
+                        result.success(convertInThread((String) call.argument("filename"), call.argument("type")));
                     } else {
                         result.notImplemented();
                     }
                 }
         );
+
+        basicMessageChannel = new BasicMessageChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), "android.call", StandardMessageCodec.INSTANCE);
+    }
+
+//    void sendMessage() {
+//
+//        basicMessageChannel.send(_result);
+//    }
+
+
+    class ConvertionThread extends Thread {
+        private String filename;
+        private int type;
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public void setFilename(String filename) {
+            this.filename = filename;
+        }
+
+        @Override
+        public void run() {
+            try {
+                String result = convert(this.filename, this.type);
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = result;
+
+                handler.sendMessage(msg);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    private String convertInThread(String imgpath, int type) {
+        ConvertionThread convertionThread = new ConvertionThread();
+        convertionThread.type = type;
+        convertionThread.filename = imgpath;
+        convertionThread.start();
+        return "on convering";
     }
 
 
     private String convert(String imgpath, int type) {
+//        sendMessage();
         _bitmap = null;
         module = null;
         System.out.println(type);
@@ -103,3 +174,5 @@ public class MainActivity extends FlutterActivity {
         return tmp[0] + filepath;
     }
 }
+
+
