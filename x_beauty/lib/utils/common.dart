@@ -21,6 +21,7 @@ class CommonUtil {
 
   static String pageName1 = "人像转换工具";
   static String pageName2 = "手绘转换工具";
+  static String pageName3 = "手绘人脸生成工具";
 
   static TextStyle jobNameStyle =
       TextStyle(fontSize: 17, fontWeight: FontWeight.bold);

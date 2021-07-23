@@ -14,6 +14,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:x_beauty/utils/common.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -97,6 +98,15 @@ class _MainNavigatorPageState extends State<MainNavigatorPage> {
               }));
             },
             title: Text(CommonUtil.pageName2),
+            trailing: Icon(Icons.chevron_right),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return FaceComposePage();
+              }));
+            },
+            title: Text(CommonUtil.pageName3),
             trailing: Icon(Icons.chevron_right),
           ),
         ],

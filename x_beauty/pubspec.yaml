@@ -41,6 +41,7 @@ dependencies:
   image_cropper: ^1.4.1
   before_after: ^2.1.0
   path_provider: ^2.0.2
+  screenshot: ^1.2.1
   # flutter_bloc: ^7.0.0 #状态管理框架
   # equatable: ^2.0.0 #增强组件相等性判断
   # rxdart: ^0.26.0
