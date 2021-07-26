@@ -68,6 +68,9 @@ flutter:
   assets:
     - assets/images/icon.png
     - assets/images/result.jpg
+    - assets/images/result2.jpg
+    - assets/images/result3.jpg
+    - assets/images/24.png
     - assets/txts/policy.txt
     - assets/images/eyebow/
     - assets/images/eyes/

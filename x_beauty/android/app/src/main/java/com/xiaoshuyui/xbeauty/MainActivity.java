@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.plugin.common.BasicMessageChannel;
-import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.StandardMessageCodec;
 
@@ -28,7 +27,7 @@ public class MainActivity extends FlutterActivity {
     private Module module;
     private Bitmap _bitmap = null;
 
-    private String _result = "这是测试数据";
+//    private String _result = "这是测试数据";
 
     private BasicMessageChannel basicMessageChannel;
 

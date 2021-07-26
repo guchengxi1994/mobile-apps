@@ -73,7 +73,7 @@ class _LaunchPageState extends State<LaunchPage>
         child: Column(
           children: [
             Container(
-              height: CommonUtil.screenW(),
+              // height: CommonUtil.screenW(),
               width: CommonUtil.screenW(),
               child: Container(
                 width: 0.85 * CommonUtil.screenW(),
@@ -81,7 +81,14 @@ class _LaunchPageState extends State<LaunchPage>
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/images/result.jpg"))),
+                        image: AssetImage("assets/images/result3.jpg"))),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              child: Text(
+                CommonUtil.appName,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             Container(

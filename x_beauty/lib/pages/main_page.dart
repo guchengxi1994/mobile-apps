@@ -88,6 +88,13 @@ class _MainNavigatorPageState extends State<MainNavigatorPage> {
                 return ConvertionPage();
               }));
             },
+            leading: Container(
+              width: 50,
+              height: 50,
+              child: Image(
+                image: AssetImage("assets/images/result.jpg"),
+              ),
+            ),
             title: Text(CommonUtil.pageName1),
             trailing: Icon(Icons.chevron_right),
           ),
@@ -97,6 +104,13 @@ class _MainNavigatorPageState extends State<MainNavigatorPage> {
                 return DrawfacePage();
               }));
             },
+            leading: Container(
+              width: 50,
+              height: 50,
+              child: Image(
+                image: AssetImage("assets/images/result2.jpg"),
+              ),
+            ),
             title: Text(CommonUtil.pageName2),
             trailing: Icon(Icons.chevron_right),
           ),
@@ -106,6 +120,13 @@ class _MainNavigatorPageState extends State<MainNavigatorPage> {
                 return FaceComposePage();
               }));
             },
+            leading: Container(
+              width: 50,
+              height: 50,
+              child: Image(
+                image: AssetImage("assets/images/24.png"),
+              ),
+            ),
             title: Text(CommonUtil.pageName3),
             trailing: Icon(Icons.chevron_right),
           ),
