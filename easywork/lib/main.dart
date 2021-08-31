@@ -44,12 +44,6 @@ Future<void> main() async {
 
   runApp(
     MaterialApp(
-      // localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-      // supportedLocales: [
-      //   const Locale('zh_CN', ''),
-      // ],
-      // initialRoute: initialRoute,
-      // supportedLocales: supportedLocales,
       routes: <String, WidgetBuilder>{
         HomePage.routeName: (_) => HomePage(notificationAppLaunchDetails),
         SecondPage.routeName: (_) => SecondPage(selectedNotificationPayload)
