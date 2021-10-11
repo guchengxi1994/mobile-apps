@@ -38,6 +38,7 @@ dependencies:
   equatable: ^2.0.3 #增强组件相等性判断
   stream_transform: ^2.0.0
   bloc_concurrency: ^0.1.0
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:

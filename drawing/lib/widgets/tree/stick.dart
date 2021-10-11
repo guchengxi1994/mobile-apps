@@ -27,29 +27,29 @@ class TreeStick {
   double? width;
 
   /// 子ids
-  List<int> childIds;
+  // List<int> childIds;
 
-  TreeStick(
-      {this.angle,
-      this.length,
-      this.stickColor,
-      this.width,
-      required this.offset,
-      required this.isEnd,
-      required this.id,
-      required this.childIds});
+  TreeStick({
+    this.angle,
+    this.length,
+    this.stickColor,
+    this.width,
+    required this.offset,
+    required this.isEnd,
+    required this.id,
+  });
 
-  Color get stickColor_ => stickColor ?? Colors.brown;
+  Color get stickColor_ => stickColor ?? Colors.brown[300]!;
 
   // double get width_ => width ?? (Random().nextInt(20) + 15.0);
   double get width_ {
-    width ??= Random().nextInt(20) + 15.0;
+    width ??= 20;
     return width!;
   }
 
   // double get length_ => length ?? (Random().nextInt(100) + 50.0);
   double get length_ {
-    length ??= Random().nextInt(100) + 50.0;
+    length ??= Random().nextInt(100) + 100.0;
     return width!;
   }
 

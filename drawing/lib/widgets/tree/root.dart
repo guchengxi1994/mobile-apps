@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class TreeRoot {
   /// 子 ID
-  List<int> childIds;
+  // List<int> childIds;
 
   /// 颜色
   Color? rootColor;
@@ -18,16 +18,16 @@ class TreeRoot {
   /// 位置
   final Offset offset;
 
-  TreeRoot(
-      {this.rootColor,
-      this.width,
-      this.heigit,
-      required this.offset,
-      required this.childIds});
+  TreeRoot({
+    this.rootColor,
+    this.width,
+    this.heigit,
+    required this.offset,
+  });
 
   Color get rootColor_ => rootColor ?? Colors.brown;
 
-  double get width_ => width ?? (Random().nextInt(40) + 15.0);
+  double get width_ => width ?? 20;
 
   double get heigit_ {
     heigit ??= (Random().nextInt(100) + 50.0);
@@ -39,7 +39,7 @@ class TreeRoot {
     double startY = offset.dy;
 
     double endX = startX;
-    double endY = startY + heigit_;
+    double endY = startY - heigit_;
 
     return Offset(endX, endY);
   }

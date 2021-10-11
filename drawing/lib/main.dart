@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        create: (_) => TreeBloc()..add(const TreeInitialEvent(level: 3)),
+        create: (_) => TreeBloc()..add(const TreeInitialEvent(level: 1)),
         child: const MyHomePage(),
       ),
     );
@@ -48,9 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> paintTree() async {
-    for (var _ in _treeBloc.state.objects) {
+    for (var _ in _treeBloc.state.paintObjects) {
       _treeBloc.add(TreePaintEvent());
-      print(_treeBloc.state.objects.getRange(0, _treeBloc.state.currentIndex));
+      print(_treeBloc.state.paintObjects
+          .getRange(0, _treeBloc.state.currentIndex));
     }
   }
 
@@ -59,7 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return BlocBuilder<TreeBloc, TreeState>(builder: (context, state) {
       paintTree();
       return CustomPaint(
-        foregroundPainter: TreeLeafPainter(treeLeaf: treeLeaf),
+        foregroundPainter: TreePainter(
+            objects: _treeBloc.state.paintObjects
+                .getRange(0, _treeBloc.state.currentIndex)
+                .toList()),
         child: Container(
           width: double.infinity,
           height: double.infinity,

@@ -1,7 +1,7 @@
 ///          0                 root
-///         1, 2               first-level stack
-///        3,4  5,6            second-level stack
-///     7,8 9,10 11,12 13,14   third-level stack
+///         1, 2               first-level stick
+///        3,4  5,6            second-level stick
+///     7,8 9,10 11,12 13,14   third-level stick
 ///        0
 ///      1,2,3
 ///    4,5,6 7,8,9 10,11,12
