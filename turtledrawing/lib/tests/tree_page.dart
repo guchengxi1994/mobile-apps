@@ -87,28 +87,47 @@ class _TreePageState extends State<TreePage> {
     var _a = a;
     var _b = b;
 
+    print(_a);
+    print(_b);
+
     var commonds2 = [
       // PenDown(),
+      // SetMacro('tree', [
+      //   IfElse((_) => _['n'] > 0, [
+      //     Right((_) => _b),
+      //     Forward((_) => 20),
+      //     RunMacro('tree', (_) => {'n': _['n'] - 1, 'l': getD(_['l'])}),
+      //     Left((_) => _b + _a),
+      //     Forward((_) => 20),
+      //     RunMacro('tree', (_) => {'n': _['n'] - 1, 'l': getD(_['l'])}),
+      //     Right((_) => _a),
+      //     Forward((_) => 20),
+      //   ], [
+      //     Right((_) => 90),
+      //     SetColor((_) =>
+      //         Color.fromARGB(1, n.ceil(), (n * 0.8).ceil(), (n * 0.8).ceil())),
+      //     Forward((_) => 10),
+      //     Left((_) => 90),
+      //     Forward((_) => 10),
+      //   ])
+      // ]),
+
       SetMacro('tree', [
+        // Left((_) => 90),
+        // Forward((_) => 100),
         IfElse((_) => _['n'] > 0, [
-          Right((_) => _b),
-          Forward((_) => 20),
-          RunMacro('tree', (_) => {'n': _['n'] - 1, 'l': getD(_['l'])}),
-          Left((_) => _b + _a),
-          Forward((_) => 20),
-          RunMacro('tree', (_) => {'n': _['n'] - 1, 'l': getD(_['l'])}),
-          Right((_) => _a),
-          Forward((_) => 20),
+          Left((_) => a),
+          Forward((_) => 100),
         ], [
           Right((_) => 90),
-          SetColor((_) =>
-              Color.fromARGB(1, n.ceil(), (n * 0.8).ceil(), (n * 0.8).ceil())),
-          Forward((_) => 10),
-          Left((_) => 90),
-          Forward((_) => 10),
-        ])
+          Forward((_) => 100),
+        ]),
       ]),
+
+      Back((_) => 140.0),
       PenDown(),
+      SetColor((_) => Colors.green),
+      Forward((_) => 100),
       RunMacro('tree', (_) => {'n': 12, 'l': 100}),
       PenUp(),
     ];
