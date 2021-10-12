@@ -27,8 +27,8 @@ def tree(n, l):
     else:
         # 画叶子
         right(90)
-        n = cos(radians(heading() - 45)) / 4 + 0.5
-        pencolor(n, n*0.8, n*0.8)
+        _n = cos(radians(heading() - 45)) / 4 + 0.5
+        pencolor(_n, _n*0.8, _n*0.8)
         circle(3)
         left(90)
  
@@ -65,7 +65,7 @@ def tree(n, l):
 bgcolor(0.5, 0.5, 0.5) # 背景色
 ht() # 隐藏turtle
 speed(0) # 速度，1-10渐进，0最快
-tracer(0, 0)
+# tracer(0, 0)
 pu() # 抬笔
 backward(100)
 left(90) # 左转90度
