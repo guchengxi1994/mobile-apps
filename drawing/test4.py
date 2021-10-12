@@ -29,7 +29,7 @@ def tree(n, l):
 bgcolor(0.5, 0.5, 0.5)
 ht()
 speed(0)
-tracer(0, 0)
+# tracer(0, 0)
 left(90)
 pu()
 backward(300)
