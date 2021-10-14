@@ -59,6 +59,9 @@ class _TreePageState extends State<TreePage>
     return length * (Random().nextDouble() * 0.25 + 0.7);
   }
 
+  Color get randomColor => Color.fromARGB(
+      255, Random().nextInt(255), Random().nextInt(255), Random().nextInt(255));
+
   // @override
   // void initState() {
   //   super.initState();
@@ -117,33 +120,55 @@ class _TreePageState extends State<TreePage>
     // print(_color);
 
     var commonds2 = [
+      SetMacro('leaf', [
+        PenUp(),
+        Forward((_) => _['distance']),
+        PenDown(),
+        Right((_) => 90),
+        SetColor((_) => randomColor),
+        Repeat((_) => 180, [Forward((_) => 0.1), Right((_) => 3)]),
+        Left((_) => 90),
+        PenUp(),
+        Back((_) => _['distance'])
+      ]),
+
       SetMacro('tree', [
         PenDown(),
         SetColor((_) => _color),
         SetStrokeWidth((_) => _['n'] / 4),
         Forward((_) => _['l'] * 1.0),
         IfElse((_) => _['n'] > 0, [
-          Right((_) => b),
+          Right((_) => _b),
           RunMacro(
               'tree',
               (_) => {
                     'n': _['n'] - 1,
                     'l': _['l'] * (Random().nextDouble() * 0.35 + 0.6),
                   }),
-          Left((_) => a + b),
+          Left((_) => _a + _b),
           RunMacro(
               'tree',
               (_) => {
                     'n': _['n'] - 1,
                     'l': _['l'] * (Random().nextDouble() * 0.35 + 0.6),
                   }),
-          Right((_) => a),
+          Right((_) => _a),
         ], [
           Right((_) => 90),
           SetColor((_) => Colors.green),
           // Forward((_) => 3),
           Repeat((_) => 180, [Forward((_) => 0.1), Right((_) => 3)]),
           Left((_) => 90),
+
+          If((_) => Random().nextDouble() > 0.7, [
+            RunMacro(
+                'leaf',
+                (_) => {
+                      'distance': 800 * Random().nextDouble() * 0.5 +
+                          400 * Random().nextDouble() * 0.3 +
+                          200 * Random().nextDouble() * 0.2
+                    })
+          ]),
         ]),
         PenUp(),
         Back((_) => _['l'])
@@ -158,7 +183,7 @@ class _TreePageState extends State<TreePage>
       // Left((_) => 90),
       PenUp(),
       Back((_) => 300),
-      RunMacro('tree', (_) => {'n': 8, 'l': 100.0}),
+      RunMacro('tree', (_) => {'n': 10, 'l': 100.0}),
 
       // SetMacro('tree', [
       //   IfElse((_) => _['n'] > 0, [
@@ -277,35 +302,35 @@ class _TreePageState extends State<TreePage>
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-              // Container(
-              //   color: Colors.blue,
-              //   child: AnimatedTurtleView(
-              //     child: const SizedBox(
-              //       width: double.infinity,
-              //       height: 600,
-              //       // color: Colors.grey[300],
-              //     ),
-              //     commands: commonds2,
-              //   ),
-              // ),
-
-              Slider(
-                value: _value,
-                onChanged: (value) {
-                  setState(() {
-                    _value = value;
-                    _controller?.value = value;
-                  });
-                },
-              ),
-              ControllableTurtleView(
-                controller: _controller!,
-                child: Container(
-                  width: double.infinity,
-                  height: 400,
+              Container(
+                // color: Colors.blue,
+                child: AnimatedTurtleView(
+                  child: const SizedBox(
+                    width: double.infinity,
+                    height: 600,
+                    // color: Colors.grey[300],
+                  ),
+                  commands: commonds2,
                 ),
-                commands: commonds2,
               ),
+
+              // Slider(
+              //   value: _value,
+              //   onChanged: (value) {
+              //     setState(() {
+              //       _value = value;
+              //       _controller?.value = value;
+              //     });
+              //   },
+              // ),
+              // ControllableTurtleView(
+              //   controller: _controller!,
+              //   child: Container(
+              //     width: double.infinity,
+              //     height: 400,
+              //   ),
+              //   commands: commonds2,
+              // ),
             ])));
   }
 }
