@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turtledrawing/tests/color_chosen_test_page.dart';
 import 'package:turtledrawing/tests/tree_page.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: TreePage(),
+      home: ColorPickerTestWidget(),
     );
   }
 }

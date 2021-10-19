@@ -299,6 +299,7 @@ class _TreePageState extends State<TreePage>
           ],
         ),
         body: SingleChildScrollView(
+            // scrollDirection: Axis.horizontal,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
